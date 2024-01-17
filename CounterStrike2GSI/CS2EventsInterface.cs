@@ -1,4 +1,4 @@
-﻿using CounterStrike2GSI.EventMessages;
+using CounterStrike2GSI.EventMessages;
 
 namespace CounterStrike2GSI
 {
@@ -115,6 +115,11 @@ namespace CounterStrike2GSI
 
         /// <inheritdoc cref="CounterStrike2GSI.EventMessages.RoundStarted" />
         public event RoundStartedHandler RoundStarted = delegate { };
+
+        public delegate void LevelChangedHandler(LevelChanged game_event);
+
+        /// <inheritdoc cref="CounterStrike2GSI.EventMessages.LevelChanged" />
+        public event LevelChangedHandler LevelChanged = delegate { };
 
         #endregion
 
@@ -415,6 +420,11 @@ namespace CounterStrike2GSI
             if (e is RoundStarted)
             {
                 RaiseEvent(RoundStarted, e);
+            }
+
+            if (e is LevelChanged)
+            {
+                RaiseEvent(LevelChanged, e);
             }
 
             if (e is PhaseCountdownsUpdated)

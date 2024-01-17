@@ -1,4 +1,4 @@
-﻿using CounterStrike2GSI.EventMessages;
+using CounterStrike2GSI.EventMessages;
 using CounterStrike2GSI.Nodes;
 
 namespace CounterStrike2GSI
@@ -24,6 +24,11 @@ namespace CounterStrike2GSI
             if (evt == null)
             {
                 return;
+            }
+
+            if (!evt.New.Name.Equals(evt.Previous.Name))
+            {
+                dispatcher.Broadcast(new LevelChanged(evt.New.Name, evt.Previous.Name));
             }
 
             if (!evt.New.CTStatistics.Equals(evt.Previous.CTStatistics))

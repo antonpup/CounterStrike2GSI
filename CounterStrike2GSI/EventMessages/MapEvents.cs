@@ -1,4 +1,4 @@
-﻿using CounterStrike2GSI.Nodes;
+using CounterStrike2GSI.Nodes;
 
 namespace CounterStrike2GSI.EventMessages
 {
@@ -97,6 +97,16 @@ namespace CounterStrike2GSI.EventMessages
             Round = round;
             IsFirstRound = is_first_round;
             IsLastRound = is_last_round;
+        }
+    }
+
+    /// <summary>
+    /// Event for level change.
+    /// </summary>
+    public class LevelChanged : UpdateEvent<string>
+    {
+        public LevelChanged(string new_value, string previous_value) : base(new_value, previous_value)
+        {
         }
     }
 }
