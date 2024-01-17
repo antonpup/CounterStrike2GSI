@@ -1,16 +1,13 @@
 ﻿using CounterStrike2GSI.EventMessages;
 using CounterStrike2GSI.Nodes;
-using System.Collections.Generic;
 
 namespace CounterStrike2GSI
 {
     public class KillfeedHandler : EventHandler<CS2GameEvent>
     {
-        private Dictionary<string, Player> _player_cache = new Dictionary<string, Player>();
-
-        private string _last_killer;
-        private string _last_victim;
-        private Weapon _killer_weapon;
+        private Player _last_killer = new Player();
+        private Player _last_victim = new Player();
+        private Weapon _killer_weapon = new Weapon();
         private bool _is_headshot;
 
         public KillfeedHandler(ref EventDispatcher<CS2GameEvent> EventDispatcher) : base(ref EventDispatcher)
@@ -37,8 +34,6 @@ namespace CounterStrike2GSI
             {
                 return;
             }
-
-            _player_cache[evt.PlayerID] = evt.New;
         }
 
         private void OnPlayerDied(CS2GameEvent e)
@@ -50,7 +45,7 @@ namespace CounterStrike2GSI
                 return;
             }
 
-            _last_victim = evt.PlayerID;
+            _last_victim = evt.Player;
 
             ResolveKillFeed();
         }
@@ -64,7 +59,7 @@ namespace CounterStrike2GSI
                 return;
             }
 
-            _last_killer = evt.PlayerID;
+            _last_killer = evt.Player;
             _killer_weapon = evt.Weapon;
             _is_headshot = evt.IsHeadshot;
 
@@ -85,9 +80,9 @@ namespace CounterStrike2GSI
 
         private void ResolveKillFeed()
         {
-            if (!string.IsNullOrWhiteSpace(_last_killer) && !string.IsNullOrWhiteSpace(_last_victim) && _killer_weapon.IsValid())
+            if (_last_killer.IsValid() && _last_victim.IsValid() && _killer_weapon.IsValid())
             {
-                dispatcher.Broadcast(new KillFeed(_player_cache[_last_killer], _player_cache[_last_victim], _is_headshot, _killer_weapon));
+                dispatcher.Broadcast(new KillFeed(_last_killer, _last_victim, _is_headshot, _killer_weapon));
 
                 Reset();
             }
@@ -95,8 +90,8 @@ namespace CounterStrike2GSI
 
         private void Reset()
         {
-            _last_killer = "";
-            _last_victim = "";
+            _last_killer = new Player();
+            _last_victim = new Player();
             _killer_weapon = new Weapon();
             _is_headshot = false;
         }

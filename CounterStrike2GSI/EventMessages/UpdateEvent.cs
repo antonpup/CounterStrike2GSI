@@ -9,13 +9,13 @@ namespace CounterStrike2GSI.EventMessages
     public class PlayerEvent : CS2GameEvent
     {
         /// <summary>
-        /// The associated player ID.
+        /// The associated player.
         /// </summary>
-        public readonly string PlayerID;
+        public readonly Player Player;
 
-        public PlayerEvent(string player_id) : base()
+        public PlayerEvent(Player player) : base()
         {
-            PlayerID = player_id;
+            Player = player;
         }
     }
 
@@ -43,13 +43,13 @@ namespace CounterStrike2GSI.EventMessages
     public class PlayerValueEvent<T> : ValueEvent<T>
     {
         /// <summary>
-        /// The associated player ID.
+        /// The associated player.
         /// </summary>
-        public readonly string PlayerID;
+        public readonly Player Player;
 
-        public PlayerValueEvent(T obj, string player_id) : base(obj)
+        public PlayerValueEvent(T obj, Player player) : base(obj)
         {
-            PlayerID = player_id;
+            Player = player;
         }
     }
 
@@ -100,13 +100,13 @@ namespace CounterStrike2GSI.EventMessages
     public class PlayerUpdateEvent<T> : UpdateEvent<T>
     {
         /// <summary>
-        /// The associated player ID.
+        /// The associated player.
         /// </summary>
-        public readonly string PlayerID;
+        public readonly Player Player;
 
-        public PlayerUpdateEvent(T new_obj, T previous_obj, string player_id) : base(new_obj, previous_obj)
+        public PlayerUpdateEvent(T new_obj, T previous_obj, Player player) : base(new_obj, previous_obj)
         {
-            PlayerID = player_id;
+            Player = player;
         }
     }
 

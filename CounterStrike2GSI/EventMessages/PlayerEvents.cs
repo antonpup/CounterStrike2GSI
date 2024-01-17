@@ -23,7 +23,7 @@ namespace CounterStrike2GSI.EventMessages
     /// </summary>
     public class PlayerTeamChanged : PlayerUpdateEvent<PlayerTeam>
     {
-        public PlayerTeamChanged(PlayerTeam new_value, PlayerTeam previous_value, string player_id) : base(new_value, previous_value, player_id)
+        public PlayerTeamChanged(PlayerTeam new_value, PlayerTeam previous_value, Player player) : base(new_value, previous_value, player)
         {
         }
     }
@@ -33,7 +33,7 @@ namespace CounterStrike2GSI.EventMessages
     /// </summary>
     public class PlayerActivityChanged : PlayerUpdateEvent<PlayerActivity>
     {
-        public PlayerActivityChanged(PlayerActivity new_value, PlayerActivity previous_value, string player_id) : base(new_value, previous_value, player_id)
+        public PlayerActivityChanged(PlayerActivity new_value, PlayerActivity previous_value, Player player) : base(new_value, previous_value, player)
         {
         }
     }
@@ -43,7 +43,7 @@ namespace CounterStrike2GSI.EventMessages
     /// </summary>
     public class PlayerStateChanged : PlayerUpdateEvent<PlayerState>
     {
-        public PlayerStateChanged(PlayerState new_value, PlayerState previous_value, string player_id) : base(new_value, previous_value, player_id)
+        public PlayerStateChanged(PlayerState new_value, PlayerState previous_value, Player player) : base(new_value, previous_value, player)
         {
         }
     }
@@ -53,7 +53,7 @@ namespace CounterStrike2GSI.EventMessages
     /// </summary>
     public class PlayerHealthChanged : PlayerUpdateEvent<int>
     {
-        public PlayerHealthChanged(int new_value, int previous_value, string player_id) : base(new_value, previous_value, player_id)
+        public PlayerHealthChanged(int new_value, int previous_value, Player player) : base(new_value, previous_value, player)
         {
         }
     }
@@ -63,7 +63,7 @@ namespace CounterStrike2GSI.EventMessages
     /// </summary>
     public class PlayerDied : PlayerHealthChanged
     {
-        public PlayerDied(int new_value, int previous_value, string player_id) : base(new_value, previous_value, player_id)
+        public PlayerDied(int new_value, int previous_value, Player player) : base(new_value, previous_value, player)
         {
         }
     }
@@ -73,7 +73,7 @@ namespace CounterStrike2GSI.EventMessages
     /// </summary>
     public class PlayerRespawned : PlayerHealthChanged
     {
-        public PlayerRespawned(int new_value, int previous_value, string player_id) : base(new_value, previous_value, player_id)
+        public PlayerRespawned(int new_value, int previous_value, Player player) : base(new_value, previous_value, player)
         {
         }
     }
@@ -83,7 +83,7 @@ namespace CounterStrike2GSI.EventMessages
     /// </summary>
     public class PlayerTookDamage : PlayerHealthChanged
     {
-        public PlayerTookDamage(int new_value, int previous_value, string player_id) : base(new_value, previous_value, player_id)
+        public PlayerTookDamage(int new_value, int previous_value, Player player) : base(new_value, previous_value, player)
         {
         }
     }
@@ -93,7 +93,7 @@ namespace CounterStrike2GSI.EventMessages
     /// </summary>
     public class PlayerArmorChanged : PlayerUpdateEvent<int>
     {
-        public PlayerArmorChanged(int new_value, int previous_value, string player_id) : base(new_value, previous_value, player_id)
+        public PlayerArmorChanged(int new_value, int previous_value, Player player) : base(new_value, previous_value, player)
         {
         }
     }
@@ -103,7 +103,7 @@ namespace CounterStrike2GSI.EventMessages
     /// </summary>
     public class PlayerHelmetChanged : PlayerUpdateEvent<bool>
     {
-        public PlayerHelmetChanged(bool new_value, bool previous_value, string player_id) : base(new_value, previous_value, player_id)
+        public PlayerHelmetChanged(bool new_value, bool previous_value, Player player) : base(new_value, previous_value, player)
         {
         }
     }
@@ -113,7 +113,7 @@ namespace CounterStrike2GSI.EventMessages
     /// </summary>
     public class PlayerFlashAmountChanged : PlayerUpdateEvent<int>
     {
-        public PlayerFlashAmountChanged(int new_value, int previous_value, string player_id) : base(new_value, previous_value, player_id)
+        public PlayerFlashAmountChanged(int new_value, int previous_value, Player player) : base(new_value, previous_value, player)
         {
         }
     }
@@ -123,7 +123,7 @@ namespace CounterStrike2GSI.EventMessages
     /// </summary>
     public class PlayerSmokedAmountChanged : PlayerUpdateEvent<int>
     {
-        public PlayerSmokedAmountChanged(int new_value, int previous_value, string player_id) : base(new_value, previous_value, player_id)
+        public PlayerSmokedAmountChanged(int new_value, int previous_value, Player player) : base(new_value, previous_value, player)
         {
         }
     }
@@ -133,7 +133,7 @@ namespace CounterStrike2GSI.EventMessages
     /// </summary>
     public class PlayerBurningAmountChanged : PlayerUpdateEvent<int>
     {
-        public PlayerBurningAmountChanged(int new_value, int previous_value, string player_id) : base(new_value, previous_value, player_id)
+        public PlayerBurningAmountChanged(int new_value, int previous_value, Player player) : base(new_value, previous_value, player)
         {
         }
     }
@@ -143,7 +143,7 @@ namespace CounterStrike2GSI.EventMessages
     /// </summary>
     public class PlayerMoneyAmountChanged : PlayerUpdateEvent<int>
     {
-        public PlayerMoneyAmountChanged(int new_value, int previous_value, string player_id) : base(new_value, previous_value, player_id)
+        public PlayerMoneyAmountChanged(int new_value, int previous_value, Player player) : base(new_value, previous_value, player)
         {
         }
     }
@@ -153,7 +153,7 @@ namespace CounterStrike2GSI.EventMessages
     /// </summary>
     public class PlayerRoundKillsChanged : PlayerUpdateEvent<int>
     {
-        public PlayerRoundKillsChanged(int new_value, int previous_value, string player_id) : base(new_value, previous_value, player_id)
+        public PlayerRoundKillsChanged(int new_value, int previous_value, Player player) : base(new_value, previous_value, player)
         {
         }
     }
@@ -163,7 +163,7 @@ namespace CounterStrike2GSI.EventMessages
     /// </summary>
     public class PlayerRoundHeadshotKillsChanged : PlayerUpdateEvent<int>
     {
-        public PlayerRoundHeadshotKillsChanged(int new_value, int previous_value, string player_id) : base(new_value, previous_value, player_id)
+        public PlayerRoundHeadshotKillsChanged(int new_value, int previous_value, Player player) : base(new_value, previous_value, player)
         {
         }
     }
@@ -173,7 +173,7 @@ namespace CounterStrike2GSI.EventMessages
     /// </summary>
     public class PlayerRoundTotalDamageChanged : PlayerUpdateEvent<int>
     {
-        public PlayerRoundTotalDamageChanged(int new_value, int previous_value, string player_id) : base(new_value, previous_value, player_id)
+        public PlayerRoundTotalDamageChanged(int new_value, int previous_value, Player player) : base(new_value, previous_value, player)
         {
         }
     }
@@ -183,7 +183,7 @@ namespace CounterStrike2GSI.EventMessages
     /// </summary>
     public class PlayerEquipmentValueChanged : PlayerUpdateEvent<int>
     {
-        public PlayerEquipmentValueChanged(int new_value, int previous_value, string player_id) : base(new_value, previous_value, player_id)
+        public PlayerEquipmentValueChanged(int new_value, int previous_value, Player player) : base(new_value, previous_value, player)
         {
         }
     }
@@ -193,7 +193,7 @@ namespace CounterStrike2GSI.EventMessages
     /// </summary>
     public class PlayerDefusekitChanged : PlayerUpdateEvent<bool>
     {
-        public PlayerDefusekitChanged(bool new_value, bool previous_value, string player_id) : base(new_value, previous_value, player_id)
+        public PlayerDefusekitChanged(bool new_value, bool previous_value, Player player) : base(new_value, previous_value, player)
         {
         }
     }
@@ -203,14 +203,8 @@ namespace CounterStrike2GSI.EventMessages
     /// </summary>
     public class PlayerWeaponChanged : PlayerUpdateEvent<Weapon>
     {
-        /// <summary>
-        /// The slot the weapon is in.
-        /// </summary>
-        public readonly int Slot;
-
-        public PlayerWeaponChanged(Weapon new_value, Weapon previous_value, int slot, string player_id) : base(new_value, previous_value, player_id)
+        public PlayerWeaponChanged(Weapon new_value, Weapon previous_value, Player player) : base(new_value, previous_value, player)
         {
-            Slot = slot;
         }
     }
 
@@ -219,13 +213,13 @@ namespace CounterStrike2GSI.EventMessages
     /// </summary>
     public class PlayerActiveWeaponChanged : PlayerWeaponChanged
     {
-        public PlayerActiveWeaponChanged(Weapon new_value, Weapon previous_value, int slot, string player_id) : base(new_value, previous_value, slot, player_id)
+        public PlayerActiveWeaponChanged(Weapon new_value, Weapon previous_value, Player player) : base(new_value, previous_value, player)
         {
         }
     }
 
     /// <summary>
-    /// Event for specific player's picking up weapons.
+    /// Event for specific player picking up weapons.
     /// </summary>
     public class PlayerWeaponsPickedUp : PlayerEvent
     {
@@ -234,7 +228,23 @@ namespace CounterStrike2GSI.EventMessages
         /// </summary>
         public readonly List<Weapon> Weapons;
 
-        public PlayerWeaponsPickedUp(List<Weapon> weapons, string player_id) : base(player_id)
+        public PlayerWeaponsPickedUp(List<Weapon> weapons, Player player) : base(player)
+        {
+            Weapons = weapons;
+        }
+    }
+
+    /// <summary>
+    /// Event for specific player dropping weapons.
+    /// </summary>
+    public class PlayerWeaponsDropped : PlayerEvent
+    {
+        /// <summary>
+        /// The dropped weapons.
+        /// </summary>
+        public readonly List<Weapon> Weapons;
+
+        public PlayerWeaponsDropped(List<Weapon> weapons, Player player) : base(player)
         {
             Weapons = weapons;
         }
@@ -245,7 +255,7 @@ namespace CounterStrike2GSI.EventMessages
     /// </summary>
     public class PlayerStatsChanged : PlayerUpdateEvent<MatchStats>
     {
-        public PlayerStatsChanged(MatchStats new_value, MatchStats previous_value, string player_id) : base(new_value, previous_value, player_id)
+        public PlayerStatsChanged(MatchStats new_value, MatchStats previous_value, Player player) : base(new_value, previous_value, player)
         {
         }
     }
@@ -255,7 +265,7 @@ namespace CounterStrike2GSI.EventMessages
     /// </summary>
     public class PlayerKillsChanged : PlayerUpdateEvent<int>
     {
-        public PlayerKillsChanged(int new_value, int previous_value, string player_id) : base(new_value, previous_value, player_id)
+        public PlayerKillsChanged(int new_value, int previous_value, Player player) : base(new_value, previous_value, player)
         {
         }
     }
@@ -280,7 +290,7 @@ namespace CounterStrike2GSI.EventMessages
         /// </summary>
         public readonly bool IsAce;
 
-        public PlayerGotKill(bool is_headshot, Weapon weapon, bool is_ace, string player_id) : base(player_id)
+        public PlayerGotKill(bool is_headshot, Weapon weapon, bool is_ace, Player player) : base(player)
         {
             IsHeadshot = is_headshot;
             Weapon = weapon;
@@ -293,7 +303,7 @@ namespace CounterStrike2GSI.EventMessages
     /// </summary>
     public class PlayerAssistsChanged : PlayerUpdateEvent<int>
     {
-        public PlayerAssistsChanged(int new_value, int previous_value, string player_id) : base(new_value, previous_value, player_id)
+        public PlayerAssistsChanged(int new_value, int previous_value, Player player) : base(new_value, previous_value, player)
         {
         }
     }
@@ -303,7 +313,7 @@ namespace CounterStrike2GSI.EventMessages
     /// </summary>
     public class PlayerDeathsChanged : PlayerUpdateEvent<int>
     {
-        public PlayerDeathsChanged(int new_value, int previous_value, string player_id) : base(new_value, previous_value, player_id)
+        public PlayerDeathsChanged(int new_value, int previous_value, Player player) : base(new_value, previous_value, player)
         {
         }
     }
@@ -313,7 +323,7 @@ namespace CounterStrike2GSI.EventMessages
     /// </summary>
     public class PlayerMVPsChanged : PlayerUpdateEvent<int>
     {
-        public PlayerMVPsChanged(int new_value, int previous_value, string player_id) : base(new_value, previous_value, player_id)
+        public PlayerMVPsChanged(int new_value, int previous_value, Player player) : base(new_value, previous_value, player)
         {
         }
     }
@@ -323,7 +333,7 @@ namespace CounterStrike2GSI.EventMessages
     /// </summary>
     public class PlayerScoreChanged : PlayerUpdateEvent<int>
     {
-        public PlayerScoreChanged(int new_value, int previous_value, string player_id) : base(new_value, previous_value, player_id)
+        public PlayerScoreChanged(int new_value, int previous_value, Player player) : base(new_value, previous_value, player)
         {
         }
     }
