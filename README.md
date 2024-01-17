@@ -1,3 +1,4 @@
+[![.NET](https://github.com/antonpup/CounterStrike2GSI/actions/workflows/dotnet.yml/badge.svg?branch=master)](https://github.com/antonpup/CounterStrike2GSI/actions/workflows/dotnet.yml) ![GitHub Release](https://img.shields.io/github/v/release/antonpup/CounterStrike2GSI) [![NuGet Version](https://img.shields.io/nuget/v/CounterStrike2GSI)](https://www.nuget.org/packages/CounterStrike2GSI) [GitHub top language](https://img.shields.io/github/languages/top/antonpup/CounterStrike2GSI)
 
 # Counter-Strike 2 GSI (Game State Integration)
 A C# library to interface with the Game State Integration found in Counter-Strike 2.
@@ -46,6 +47,10 @@ GameEvent updates:
 void OnGameEvent(CS2GameEvent game_event)
 {
     // Do stuff with game_event
+    if (game_event is PlayerTookDamage player_took_damage)
+    {
+        Console.WriteLine($"The player {player_took_damage.PlayerID} took {player_took_damage.Previous - player_took_damage.New} damage!");
+    }
 }
 ```
 
@@ -67,6 +72,65 @@ gsl.KillFeed += OnKillFeed; // Receive KillFeed Game Events only
 ```
 
 4. Use `GameStateListener.Start()` to start listening for HTTP POST requests from the game client. This method will return `false` if starting the listener fails (most likely due to insufficient privileges).
+
+## Implemented Game Events
+* AllGrenadesEvents
+  * `AllGrenadesUpdated`
+  * `GrenadeUpdated`
+* AllPlayersEvents
+  * `AllPlayersUpdated`
+* AuthEvents
+  * `AuthUpdated`
+* BombEvents
+  * `BombUpdated`
+* KillfeedEvents
+  * `KillFeed`
+* MapEvents
+  * `MapUpdated`
+  * `TeamStatisticsUpdated`
+  * `RoundChanged`
+  * `RoundConcluded`
+  * `RoundStarted`
+* PhaseCountdownEvents
+  * `PhaseCountdownsUpdated`
+* PlayerEvents
+  * `PlayerUpdated`
+  * `PlayerTeamChanged`
+  * `PlayerActivityChanged`
+  * `PlayerStateChanged`
+  * `PlayerHealthChanged`
+  * `PlayerDied`
+  * `PlayerRespawned`
+  * `PlayerTookDamage`
+  * `PlayerArmorChanged`
+  * `PlayerHelmetChanged`
+  * `PlayerFlashAmountChanged`
+  * `PlayerSmokedAmountChanged`
+  * `PlayerBurningAmountChanged`
+  * `PlayerMoneyAmountChanged`
+  * `PlayerRoundKillsChanged`
+  * `PlayerRoundHeadshotKillsChanged`
+  * `PlayerRoundTotalDamageChanged`
+  * `PlayerEquipmentValueChanged`
+  * `PlayerDefusekitChanged`
+  * `PlayerWeaponChanged`
+  * `PlayerActiveWeaponChanged`
+  * `PlayerWeaponsPickedUp`
+  * `PlayerStatsChanged`
+  * `PlayerKillsChanged`
+  * `PlayerGotKill`
+  * `PlayerAssistsChanged`
+  * `PlayerDeathsChanged`
+  * `PlayerMVPsChanged`
+  * `PlayerScoreChanged`
+* ProviderEvents
+  * `ProviderUpdated`
+* RoundEvents
+  * `RoundUpdated`
+  * `RoundPhaseUpdated`
+  * `BombStateUpdated`
+  * `TeamRoundVictory`
+  * `TeamRoundLoss`
 
 ## Game State Structure
 ```
@@ -171,76 +235,17 @@ GameState
 |   +-- Player
 |   +-- Countdown
 +-- TournamentDraft
-    +-- State
-    +-- EventID
-    +-- StageID
-    +-- FirstTeamID
-    +-- SecondTeamID
-    +-- Event
-    +-- Stage
-    +-- FirstTeamName
-    +-- SecondTeamName
+|   +-- State
+|   +-- EventID
+|   +-- StageID
+|   +-- FirstTeamID
+|   +-- SecondTeamID
+|   +-- Event
+|   +-- Stage
+|   +-- FirstTeamName
+|   +-- SecondTeamName
 +-- Previously (Previous information from Game State)
 ```
-
-## Implemented Game Events
-* AllGrenadesEvents
-  * `AllGrenadesUpdated`
-  * `GrenadeUpdated`
-* AllPlayersEvents
-  * `AllPlayersUpdated`
-* AuthEvents
-  * `AuthUpdated`
-* BombEvents
-  * `BombUpdated`
-* KillfeedEvents
-  * `KillFeed`
-* MapEvents
-  * `MapUpdated`
-  * `TeamStatisticsUpdated`
-  * `RoundChanged`
-  * `RoundConcluded`
-  * `RoundStarted`
-* PhaseCountdownEvents
-  * `PhaseCountdownsUpdated`
-* PlayerEvents
-  * `PlayerUpdated`
-  * `PlayerTeamChanged`
-  * `PlayerActivityChanged`
-  * `PlayerStateChanged`
-  * `PlayerHealthChanged`
-  * `PlayerDied`
-  * `PlayerRespawned`
-  * `PlayerTookDamage`
-  * `PlayerArmorChanged`
-  * `PlayerHelmetChanged`
-  * `PlayerFlashAmountChanged`
-  * `PlayerSmokedAmountChanged`
-  * `PlayerBurningAmountChanged`
-  * `PlayerMoneyAmountChanged`
-  * `PlayerRoundKillsChanged`
-  * `PlayerRoundHeadshotKillsChanged`
-  * `PlayerRoundTotalDamageChanged`
-  * `PlayerEquipmentValueChanged`
-  * `PlayerDefusekitChanged`
-  * `PlayerWeaponChanged`
-  * `PlayerActiveWeaponChanged`
-  * `PlayerWeaponsPickedUp`
-  * `PlayerStatsChanged`
-  * `PlayerKillsChanged`
-  * `PlayerGotKill`
-  * `PlayerAssistsChanged`
-  * `PlayerDeathsChanged`
-  * `PlayerMVPsChanged`
-  * `PlayerScoreChanged`
-* ProviderEvents
-  * `ProviderUpdated`
-* RoundEvents
-  * `RoundUpdated`
-  * `RoundPhaseUpdated`
-  * `BombStateUpdated`
-  * `TeamRoundVictory`
-  * `TeamRoundLoss`
 
 ## Null value handling
 In case the JSON did not contain the requested information, these values will be returned:
