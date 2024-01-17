@@ -21,4 +21,24 @@ namespace CounterStrike2GSI.EventMessages
         {
         }
     }
+
+    /// <summary>
+    /// Event for a new thrown Grenade. 
+    /// </summary>
+    public class NewGrenade : EntityValueEvent<Grenade>
+    {
+        public NewGrenade(Grenade value, string entity_id) : base(value, entity_id)
+        {
+        }
+    }
+
+    /// <summary>
+    /// Event for an expired Grenade. 
+    /// </summary>
+    public class ExpiredGrenade : EntityValueEvent<Grenade>
+    {
+        public ExpiredGrenade(Grenade value, string entity_id) : base(value, entity_id)
+        {
+        }
+    }
 }

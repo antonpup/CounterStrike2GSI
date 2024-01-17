@@ -143,4 +143,21 @@ namespace CounterStrike2GSI.EventMessages
             EntityID = entity_id;
         }
     }
+
+    /// <summary>
+    /// Event for specific entity's single value update.
+    /// </summary>
+    /// <typeparam name="T">The value type.</typeparam>
+    public class EntityValueEvent<T> : ValueEvent<T>
+    {
+        /// <summary> 
+        /// The associated entity ID. 
+        /// </summary> 
+        public readonly string EntityID;
+
+        public EntityValueEvent(T obj, string entity_id) : base(obj)
+        {
+            EntityID = entity_id;
+        }
+    }
 }

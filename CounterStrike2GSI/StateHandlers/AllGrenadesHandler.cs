@@ -28,6 +28,7 @@ namespace CounterStrike2GSI
                 if (!evt.Previous.ContainsKey(grenade_kvp.Key))
                 {
                     // Grenade did not exist before.
+                    dispatcher.Broadcast(new NewGrenade(grenade_kvp.Value, grenade_kvp.Key));
                     continue;
                 }
 
@@ -36,6 +37,16 @@ namespace CounterStrike2GSI
                 if (!grenade_kvp.Value.Equals(previous_grenade))
                 {
                     dispatcher.Broadcast(new GrenadeUpdated(grenade_kvp.Value, previous_grenade, grenade_kvp.Key));
+                }
+            }
+
+            foreach (var prev_grenade_kvp in evt.Previous)
+            {
+                if (!evt.New.ContainsKey(prev_grenade_kvp.Key))
+                {
+                    // Grenade does not exist anymore.
+                    dispatcher.Broadcast(new ExpiredGrenade(prev_grenade_kvp.Value, prev_grenade_kvp.Key));
+                    continue;
                 }
             }
         }

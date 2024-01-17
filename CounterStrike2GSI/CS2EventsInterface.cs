@@ -16,6 +16,16 @@ namespace CounterStrike2GSI
         /// <inheritdoc cref="CounterStrike2GSI.EventMessages.GrenadeUpdated" />
         public event GrenadeUpdatedHandler GrenadeUpdated = delegate { };
 
+        public delegate void NewGrenadeHandler(NewGrenade game_event);
+
+        /// <inheritdoc cref="CounterStrike2GSI.EventMessages.NewGrenade" />
+        public event NewGrenadeHandler NewGrenade = delegate { };
+
+        public delegate void ExpiredGrenadeHandler(ExpiredGrenade game_event);
+
+        /// <inheritdoc cref="CounterStrike2GSI.EventMessages.ExpiredGrenade" />
+        public event ExpiredGrenadeHandler ExpiredGrenade = delegate { };
+
         #endregion
 
         #region AllPlayersEvents
@@ -340,6 +350,16 @@ namespace CounterStrike2GSI
             if (e is GrenadeUpdated)
             {
                 RaiseEvent(GrenadeUpdated, e);
+            }
+
+            if (e is NewGrenade)
+            {
+                RaiseEvent(NewGrenade, e);
+            }
+
+            if (e is ExpiredGrenade)
+            {
+                RaiseEvent(ExpiredGrenade, e);
             }
 
             if (e is AllPlayersUpdated)
