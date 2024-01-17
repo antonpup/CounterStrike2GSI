@@ -1,7 +1,7 @@
 # Setup project.
 SET(PRODUCT CounterStrike2GSI)
 SET(PRODUCT_NAME "${PRODUCT}")
-SET(PRODUCT_VERSION 1.0.0)
+SET(PRODUCT_VERSION 1.0.1)
 SET(PRODUCT_DESCRIPTION "A C# library to interface the Game State Integration found in Counter-Strike 2.")
 SET(PRODUCT_AUTHORS "Anton Pupkov")
 SET(PRODUCT_COPYRIGHT "Copyright© 2024")
