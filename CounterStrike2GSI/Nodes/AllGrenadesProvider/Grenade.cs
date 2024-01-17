@@ -37,7 +37,7 @@ namespace CounterStrike2GSI.Nodes
         /// <summary>
         /// Flashbang grenade.
         /// </summary>
-        Glashbang,
+        Flashbang,
 
         /// <summary>
         /// Fragmentation grenade.

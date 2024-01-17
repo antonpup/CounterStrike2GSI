@@ -61,7 +61,7 @@ namespace CounterStrike2GSI
                     var previous_weapon = evt.Previous.Weapons.FirstOrDefault(value => value.Name == weapon.Name, new Weapon());
                     if (!previous_weapon.IsValid())
                     {
-                        // The player did not previously have the weapon
+                        // The player did not previously have the weapon.
                         new_weapons.Add(weapon);
                     }
                     else
@@ -78,7 +78,7 @@ namespace CounterStrike2GSI
                     var new_weapon = evt.New.Weapons.FirstOrDefault(value => value.Name == weapon.Name, new Weapon());
                     if (!new_weapon.IsValid())
                     {
-                        // The player no longer has the weapon
+                        // The player no longer has the weapon.
                         lost_weapons.Add(weapon);
                     }
                 }

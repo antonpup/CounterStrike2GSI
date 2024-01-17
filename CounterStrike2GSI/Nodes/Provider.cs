@@ -13,12 +13,12 @@ namespace CounterStrike2GSI.Nodes
         public readonly string Name;
 
         /// <summary>
-        /// Game's Steam AppID.
+        /// Game Steam AppID.
         /// </summary>
         public readonly int AppID;
 
         /// <summary>
-        /// Game's version.
+        /// Game version.
         /// </summary>
         public readonly int Version;
 

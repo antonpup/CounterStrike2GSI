@@ -75,8 +75,10 @@ namespace CounterStrike2GSI
         private GameState _previous_game_state = new GameState();
         private GameState _current_game_state = new GameState();
 
+        // Dispatcher for game events.
         private static EventDispatcher<CS2GameEvent> _dispatcher = new EventDispatcher<CS2GameEvent>();
 
+        // Game State handlers.
         private AuthHandler _auth_handler = new AuthHandler(ref _dispatcher);
         private ProviderHandler _provider_handler = new ProviderHandler(ref _dispatcher);
         private MapHandler _map_handler = new MapHandler(ref _dispatcher);
@@ -87,8 +89,10 @@ namespace CounterStrike2GSI
         private AllGrenadesHandler _all_grenades_handler = new AllGrenadesHandler(ref _dispatcher);
         private BombHandler _bomb_handler = new BombHandler(ref _dispatcher);
 
+        // Custom handlers.
         private KillfeedHandler _killfeed_handler = new KillfeedHandler(ref _dispatcher);
 
+        // Overall GameState handler.
         private GameStateHandler _game_state_handler = new GameStateHandler(ref _dispatcher);
 
         /// <summary>

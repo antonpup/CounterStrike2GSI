@@ -61,7 +61,7 @@ namespace CounterStrike2GSI.Nodes
     }
 
     /// <summary>
-    /// Enum list for each player team.
+    /// Enum list for round conclusion reason.
     /// </summary>
     public enum RoundConclusion
     {

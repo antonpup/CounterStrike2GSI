@@ -20,7 +20,7 @@ namespace CounterStrike2GSI
 
             if (!previous_game_state.IsValid() && game_state.Previously.IsValid())
             {
-                // Update previous game state cache.
+                // If the previous game state cache is invlaid, attempt to recover it from the current game state.
                 previous_game_state = game_state.Previously;
             }
 
@@ -43,6 +43,7 @@ namespace CounterStrike2GSI
 
             if (!previous_game_state.Round.Equals(game_state.Round))
             {
+                // Depends on MapUpdated. This broadcast must happen after MapUpdated.
                 dispatcher.Broadcast(new RoundUpdated(game_state.Round, previous_game_state.Round));
             }
 
@@ -68,6 +69,7 @@ namespace CounterStrike2GSI
 
             if (!previous_game_state.Bomb.Equals(game_state.Bomb))
             {
+                // Depends on PlayerUpdated. This broadcast must happen after PlayerUpdated.
                 dispatcher.Broadcast(new BombUpdated(game_state.Bomb, previous_game_state.Bomb));
             }
 

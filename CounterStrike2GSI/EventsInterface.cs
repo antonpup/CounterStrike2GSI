@@ -21,7 +21,7 @@ namespace CounterStrike2GSI
         {
         }
 
-        public virtual void OnNewGameEvent(CS2GameEvent e)
+        public virtual void OnNewGameEvent(T e)
         {
             RaiseEvent(GameEvent, e);
         }

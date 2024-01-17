@@ -3,7 +3,7 @@ using Newtonsoft.Json.Linq;
 namespace CounterStrike2GSI.Nodes
 {
     /// <summary>
-    /// Enum list for each player team.
+    /// Enum list for each game state.
     /// </summary>
     public enum GameState
     {
@@ -19,7 +19,7 @@ namespace CounterStrike2GSI.Nodes
     }
 
     /// <summary>
-    /// A class representing tournament raft information.
+    /// A class representing tournament draft information.
     /// </summary>
     public class TournamentDraft : Node
     {
@@ -49,7 +49,7 @@ namespace CounterStrike2GSI.Nodes
         public readonly int SecondTeamID;
 
         /// <summary>
-        /// The name of this event.
+        /// The name of the event.
         /// </summary>
         public readonly string Event;
 
