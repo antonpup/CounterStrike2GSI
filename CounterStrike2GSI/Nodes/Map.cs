@@ -134,12 +134,12 @@ namespace CounterStrike2GSI.Nodes
         /// <summary>
         /// The Counter-Terrorist statistics.
         /// </summary>
-        public readonly TeamMapStatistics CTStatistics;
+        public readonly TeamStatistics CTStatistics;
 
         /// <summary>
         /// The Terrorist statistics.
         /// </summary>
-        public readonly TeamMapStatistics TStatistics;
+        public readonly TeamStatistics TStatistics;
 
         /// <summary>
         /// The number of matches required to win the series.
@@ -159,8 +159,8 @@ namespace CounterStrike2GSI.Nodes
             Name = GetString("name");
             Phase = GetEnum<Phase>("phase");
             Round = GetInt("round");
-            CTStatistics = new TeamMapStatistics(GetJObject("team_ct"));
-            TStatistics = new TeamMapStatistics(GetJObject("team_t"));
+            CTStatistics = new TeamStatistics(GetJObject("team_ct"));
+            TStatistics = new TeamStatistics(GetJObject("team_t"));
             NumberOfMatchesToWinSeries = GetInt("num_matches_to_win_series");
 
             GetMatchingStrings(GetJObject("round_wins"), _round_regex, (Match match, string str) =>

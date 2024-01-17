@@ -1,4 +1,4 @@
-using CounterStrike2GSI.Nodes;
+﻿using CounterStrike2GSI.Nodes;
 
 namespace CounterStrike2GSI.EventMessages
 {
@@ -15,9 +15,9 @@ namespace CounterStrike2GSI.EventMessages
     /// <summary>
     /// Event for specific team's Statistics update.
     /// </summary>
-    public class TeamStatisticsUpdated : TeamUpdateEvent<TeamMapStatistics>
+    public class TeamStatisticsUpdated : TeamUpdateEvent<TeamStatistics>
     {
-        public TeamStatisticsUpdated(TeamMapStatistics new_value, TeamMapStatistics previous_value, PlayerTeam team) : base(new_value, previous_value, team)
+        public TeamStatisticsUpdated(TeamStatistics new_value, TeamStatistics previous_value, PlayerTeam team) : base(new_value, previous_value, team)
         {
         }
     }

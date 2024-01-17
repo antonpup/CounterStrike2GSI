@@ -48,7 +48,7 @@ SET(SOURCES
     Nodes/PlayerProvider/PlayerState.cs
     Nodes/PlayerProvider/Weapon.cs
     Nodes/Map.cs
-    Nodes/MapProvider/TeamMapStatistics.cs
+    Nodes/MapProvider/TeamStatistics.cs
     Nodes/Provider.cs
     Nodes/TournamentDraft.cs
     Nodes/Node.cs

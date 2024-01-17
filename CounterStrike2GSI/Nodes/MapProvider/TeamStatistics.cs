@@ -5,7 +5,7 @@ namespace CounterStrike2GSI.Nodes
     /// <summary>
     /// Class representing team statistics.
     /// </summary>
-    public class TeamMapStatistics : Node
+    public class TeamStatistics : Node
     {
         /// <summary>
         /// The team score.
@@ -37,7 +37,7 @@ namespace CounterStrike2GSI.Nodes
         /// </summary>
         public readonly int MatchesWonThisSeries;
 
-        internal TeamMapStatistics(JObject parsed_data = null) : base(parsed_data)
+        internal TeamStatistics(JObject parsed_data = null) : base(parsed_data)
         {
             Score = GetInt("score");
             Name = GetString("name");
@@ -67,7 +67,7 @@ namespace CounterStrike2GSI.Nodes
                 return false;
             }
 
-            return obj is TeamMapStatistics other &&
+            return obj is TeamStatistics other &&
                 Score.Equals(other.Score) &&
                 Name.Equals(other.Name) &&
                 Flag.Equals(other.Flag) &&
