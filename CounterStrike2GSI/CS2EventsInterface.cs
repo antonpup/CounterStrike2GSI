@@ -204,6 +204,11 @@ namespace CounterStrike2GSI
         /// <inheritdoc cref="CounterStrike2GSI.EventMessages.PlayerWeaponsPickedUp" />
         public event PlayerWeaponsPickedUpHandler PlayerWeaponsPickedUp = delegate { };
 
+        public delegate void PlayerWeaponsDroppedHandler(PlayerWeaponsDropped game_event);
+
+        /// <inheritdoc cref="CounterStrike2GSI.EventMessages.PlayerWeaponsDropped" />
+        public event PlayerWeaponsDroppedHandler PlayerWeaponsDropped = delegate { };
+
         public delegate void PlayerStatsChangedHandler(PlayerStatsChanged game_event);
 
         /// <inheritdoc cref="CounterStrike2GSI.EventMessages.PlayerStatsChanged" />
@@ -457,6 +462,10 @@ namespace CounterStrike2GSI
                 RaiseEvent(PlayerWeaponsPickedUp, e);
             }
 
+            if (e is PlayerWeaponsDropped)
+            {
+                RaiseEvent(PlayerWeaponsDropped, e);
+            }
 
             if (e is PlayerStatsChanged)
             {
