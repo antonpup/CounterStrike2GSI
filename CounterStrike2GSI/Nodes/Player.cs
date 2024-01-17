@@ -98,9 +98,15 @@ namespace CounterStrike2GSI.Nodes
 
         private Regex _weapon_regex = new Regex(@"weapon_(\d+)");
 
-        internal Player(JObject parsed_data = null) : base(parsed_data)
+        internal Player(JObject parsed_data = null, string steam_id = "") : base(parsed_data)
         {
             SteamID = GetString("steamid");
+
+            if (string.IsNullOrWhiteSpace(SteamID))
+            {
+                SteamID = steam_id;
+            }
+
             Clan = GetString("clan");
             Name = GetString("name");
             ObserverSlot = GetInt("observer_slot");
@@ -121,7 +127,7 @@ namespace CounterStrike2GSI.Nodes
             Position = new Vector3D(GetString("position"));
             ForwardDirection = new Vector3D(GetString("forward"));
         }
-        
+
 
         /// <summary>
         /// Gets the active weapon.

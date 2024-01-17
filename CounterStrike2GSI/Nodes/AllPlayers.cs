@@ -22,7 +22,7 @@ namespace CounterStrike2GSI.Nodes
                     {
                         var match = _player_steamid_regex.Match(property_name);
                         var player_steam_id = match.Groups[1].Value;
-                        var player_data = new Player(property.Value as JObject);
+                        var player_data = new Player(property.Value as JObject, player_steam_id);
 
                         if (!ContainsKey(player_steam_id))
                         {
