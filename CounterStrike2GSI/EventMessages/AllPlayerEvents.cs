@@ -11,4 +11,24 @@ namespace CounterStrike2GSI.EventMessages
         {
         }
     }
+
+    /// <summary>
+    /// Event for Player disconnecting from the game. 
+    /// </summary>
+    public class PlayerDisconnected : ValueEvent<Player>
+    {
+        public PlayerDisconnected(Player value) : base(value)
+        {
+        }
+    }
+
+    /// <summary>
+    /// Event for Player joining the game. 
+    /// </summary>
+    public class PlayerJoined : ValueEvent<Player>
+    {
+        public PlayerJoined(Player value) : base(value)
+        {
+        }
+    }
 }

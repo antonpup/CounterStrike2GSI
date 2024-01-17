@@ -28,6 +28,7 @@ namespace CounterStrike2GSI
                 if (!evt.Previous.ContainsKey(player_kvp.Key))
                 {
                     // Player did not exist before.
+                    dispatcher.Broadcast(new PlayerJoined(player_kvp.Value));
                     continue;
                 }
 
@@ -36,6 +37,16 @@ namespace CounterStrike2GSI
                 if (!player_kvp.Value.Equals(previous_player))
                 {
                     dispatcher.Broadcast(new PlayerUpdated(player_kvp.Value, previous_player, player_kvp.Key));
+                }
+            }
+
+            foreach (var prev_player_kvp in evt.Previous)
+            {
+                if (!evt.New.ContainsKey(prev_player_kvp.Key))
+                {
+                    // Player does not exist anymore.
+                    dispatcher.Broadcast(new PlayerDisconnected(prev_player_kvp.Value));
+                    continue;
                 }
             }
         }
