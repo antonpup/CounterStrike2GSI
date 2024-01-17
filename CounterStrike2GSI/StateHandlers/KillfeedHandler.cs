@@ -12,7 +12,6 @@ namespace CounterStrike2GSI
 
         public KillfeedHandler(ref EventDispatcher<CS2GameEvent> EventDispatcher) : base(ref EventDispatcher)
         {
-            dispatcher.Subscribe<PlayerUpdated>(OnPlayerUpdated);
             dispatcher.Subscribe<PlayerDied>(OnPlayerDied);
             dispatcher.Subscribe<PlayerGotKill>(OnPlayerGotKill);
             dispatcher.Subscribe<RoundChanged>(OnRoundChanged);
@@ -20,20 +19,9 @@ namespace CounterStrike2GSI
 
         ~KillfeedHandler()
         {
-            dispatcher.Unsubscribe<PlayerUpdated>(OnPlayerUpdated);
             dispatcher.Unsubscribe<PlayerDied>(OnPlayerDied);
             dispatcher.Unsubscribe<PlayerGotKill>(OnPlayerGotKill);
             dispatcher.Unsubscribe<RoundChanged>(OnRoundChanged);
-        }
-
-        private void OnPlayerUpdated(CS2GameEvent e)
-        {
-            PlayerUpdated evt = (e as PlayerUpdated);
-
-            if (evt == null)
-            {
-                return;
-            }
         }
 
         private void OnPlayerDied(CS2GameEvent e)
@@ -82,7 +70,10 @@ namespace CounterStrike2GSI
         {
             if (_last_killer.IsValid() && _last_victim.IsValid() && _killer_weapon.IsValid())
             {
-                dispatcher.Broadcast(new KillFeed(_last_killer, _last_victim, _is_headshot, _killer_weapon));
+                if (!_last_killer.SteamID.Equals(_last_victim.SteamID))
+                {
+                    dispatcher.Broadcast(new KillFeed(_last_killer, _last_victim, _is_headshot, _killer_weapon));
+                }
 
                 Reset();
             }
