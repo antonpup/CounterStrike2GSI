@@ -72,9 +72,9 @@ namespace CounterStrike2GSI.Nodes
         public readonly PlayerState State;
 
         /// <summary>
-        /// The player's weapons. A map of weapon slot to weapon details.
+        /// The player's weapons.
         /// </summary>
-        public readonly NodeMap<int, Weapon> Weapons = new NodeMap<int, Weapon>();
+        public readonly NodeList<Weapon> Weapons = new NodeList<Weapon>();
 
         /// <summary>
         /// The player's match statistics.
@@ -110,17 +110,10 @@ namespace CounterStrike2GSI.Nodes
 
             GetMatchingObjects(GetJObject("weapons"), _weapon_regex, (Match match, JObject obj) =>
             {
-                var weapon_slot = Convert.ToInt32(match.Groups[1].Value);
+                var weapon_index = Convert.ToInt32(match.Groups[1].Value);
                 var weapon = new Weapon(obj);
 
-                if (!Weapons.ContainsKey(weapon_slot))
-                {
-                    Weapons.Add(weapon_slot, weapon);
-                }
-                else
-                {
-                    Weapons[weapon_slot] = weapon;
-                }
+                Weapons.Add(weapon);
             });
 
             MatchStats = new MatchStats(GetJObject("match_stats"));
@@ -128,24 +121,7 @@ namespace CounterStrike2GSI.Nodes
             Position = new Vector3D(GetString("position"));
             ForwardDirection = new Vector3D(GetString("forward"));
         }
-
-        /// <summary>
-        /// Gets the active weapon slot.
-        /// </summary>
-        /// <returns>The slot number for the active weapon.</returns>
-        public int GetActiveWeaponSlot()
-        {
-            foreach (var weapon in Weapons)
-            {
-                if (weapon.Value.State == WeaponState.Active)
-                {
-                    return weapon.Key;
-                }
-            }
-
-            // No active weapon.
-            return -1;
-        }
+        
 
         /// <summary>
         /// Gets the active weapon.
@@ -153,15 +129,16 @@ namespace CounterStrike2GSI.Nodes
         /// <returns>The active weapon.</returns>
         public Weapon GetActiveWeapon()
         {
-            var slot = GetActiveWeaponSlot();
-
-            if (slot == -1)
+            foreach (var weapon in Weapons)
             {
-                // No active weapon.
-                return new Weapon();
+                if (weapon.State == WeaponState.Active || weapon.State == WeaponState.Reloading)
+                {
+                    return weapon;
+                }
             }
 
-            return Weapons[slot];
+            // No active weapon.
+            return new Weapon();
         }
 
         /// <inheritdoc/>
