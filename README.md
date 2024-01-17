@@ -1,4 +1,4 @@
-[![.NET](https://github.com/antonpup/CounterStrike2GSI/actions/workflows/dotnet.yml/badge.svg?branch=master)](https://github.com/antonpup/CounterStrike2GSI/actions/workflows/dotnet.yml) ![GitHub Release](https://img.shields.io/github/v/release/antonpup/CounterStrike2GSI) [![NuGet Version](https://img.shields.io/nuget/v/CounterStrike2GSI)](https://www.nuget.org/packages/CounterStrike2GSI) [GitHub top language](https://img.shields.io/github/languages/top/antonpup/CounterStrike2GSI)
+[![.NET](https://github.com/antonpup/CounterStrike2GSI/actions/workflows/dotnet.yml/badge.svg?branch=master)](https://github.com/antonpup/CounterStrike2GSI/actions/workflows/dotnet.yml) ![GitHub Release](https://img.shields.io/github/v/release/antonpup/CounterStrike2GSI) [![NuGet Version](https://img.shields.io/nuget/v/CounterStrike2GSI)](https://www.nuget.org/packages/CounterStrike2GSI)
 
 # Counter-Strike 2 GSI (Game State Integration)
 A C# library to interface with the Game State Integration found in Counter-Strike 2.
@@ -83,6 +83,13 @@ gsl.KillFeed += OnKillFeed; // Receive KillFeed Game Events only
   * `AuthUpdated`
 * BombEvents
   * `BombUpdated`
+  * `BombPlanting`
+  * `BombPlanted`
+  * `BombDefused`
+  * `BombDefusing`
+  * `BombDropped`
+  * `BombPickedup`
+  * `BombExploded`
 * KillfeedEvents
   * `KillFeed`
 * MapEvents
@@ -91,6 +98,7 @@ gsl.KillFeed += OnKillFeed; // Receive KillFeed Game Events only
   * `RoundChanged`
   * `RoundConcluded`
   * `RoundStarted`
+  * `LevelChanged`
 * PhaseCountdownEvents
   * `PhaseCountdownsUpdated`
 * PlayerEvents
@@ -158,15 +166,6 @@ GameState
 |   |   +-- ...
 |   +-- NumberOfMatchesToWinSeries
 |   +-- RoundWins
-|   +-- GameState
-|   +-- IsPaused
-|   +-- Winningteam
-|   +-- CustomGameName
-|   +-- RadiantWardPurchaseCooldown
-|   +-- DireWardPurchaseCooldown
-|   +-- RoshanState
-|   +-- RoshanStateEndTime
-|   +-- WardPurchaseCooldown
 +-- Round
 |   +-- Phase
 |   +-- BombState
@@ -191,9 +190,7 @@ GameState
 |   |   +-- RoundTotalDamage
 |   |   +-- EquipmentValue
 |   |   +-- HasDefuseKit
-|   +-- Weapons
-|   |   \
-|   |   (Map of weapon slot to Weapon structure)
+|   +-- Weapons[]
 |   |   +-- Name
 |   |   +-- PaintKit
 |   |   +-- Type
@@ -210,7 +207,6 @@ GameState
 |   +-- SpectationTarget
 |   +-- Position
 |   +-- ForwardDirection
-|   +-- GetActiveWeaponSlot()
 |   +-- GetActiveWeapon()
 +-- PhaseCountdowns
 |   +-- Phase
