@@ -43,6 +43,41 @@ namespace CounterStrike2GSI
         /// <inheritdoc cref="CounterStrike2GSI.EventMessages.BombUpdated" />
         public event BombUpdatedHandler BombUpdated = delegate { };
 
+        public delegate void BombPlantingHandler(BombPlanting game_event);
+
+        /// <inheritdoc cref="CounterStrike2GSI.EventMessages.BombPlanting" />
+        public event BombPlantingHandler BombPlanting = delegate { };
+
+        public delegate void BombPlantedHandler(BombPlanted game_event);
+
+        /// <inheritdoc cref="CounterStrike2GSI.EventMessages.BombPlanted" />
+        public event BombPlantedHandler BombPlanted = delegate { };
+
+        public delegate void BombDefusedHandler(BombDefused game_event);
+
+        /// <inheritdoc cref="CounterStrike2GSI.EventMessages.BombDefused" />
+        public event BombDefusedHandler BombDefused = delegate { };
+
+        public delegate void BombDefusingHandler(BombDefusing game_event);
+
+        /// <inheritdoc cref="CounterStrike2GSI.EventMessages.BombDefusing" />
+        public event BombDefusingHandler BombDefusing = delegate { };
+
+        public delegate void BombDroppedHandler(BombDropped game_event);
+
+        /// <inheritdoc cref="CounterStrike2GSI.EventMessages.BombDropped" />
+        public event BombDroppedHandler BombDropped = delegate { };
+
+        public delegate void BombPickedupHandler(BombPickedup game_event);
+
+        /// <inheritdoc cref="CounterStrike2GSI.EventMessages.BombPickedup" />
+        public event BombPickedupHandler BombPickedup = delegate { };
+
+        public delegate void BombExplodedHandler(BombExploded game_event);
+
+        /// <inheritdoc cref="CounterStrike2GSI.EventMessages.BombExploded" />
+        public event BombExplodedHandler BombExploded = delegate { };
+
         #endregion
 
         #region KillfeedEvents
@@ -315,6 +350,41 @@ namespace CounterStrike2GSI
             if (e is BombUpdated)
             {
                 RaiseEvent(BombUpdated, e);
+            }
+
+            if (e is BombPlanting)
+            {
+                RaiseEvent(BombPlanting, e);
+            }
+
+            if (e is BombPlanted)
+            {
+                RaiseEvent(BombPlanted, e);
+            }
+
+            if (e is BombDefused)
+            {
+                RaiseEvent(BombDefused, e);
+            }
+
+            if (e is BombDefusing)
+            {
+                RaiseEvent(BombDefusing, e);
+            }
+
+            if (e is BombDropped)
+            {
+                RaiseEvent(BombDropped, e);
+            }
+
+            if (e is BombPickedup)
+            {
+                RaiseEvent(BombPickedup, e);
+            }
+
+            if (e is BombExploded)
+            {
+                RaiseEvent(BombExploded, e);
             }
 
             if (e is KillFeed)
