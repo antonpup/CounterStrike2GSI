@@ -28,7 +28,7 @@ namespace CounterStrike2GSI
                 if (!evt.Previous.ContainsKey(player_kvp.Key))
                 {
                     // Player did not exist before.
-                    dispatcher.Broadcast(new PlayerJoined(player_kvp.Value));
+                    dispatcher.Broadcast(new PlayerConnected(player_kvp.Value));
                     continue;
                 }
 

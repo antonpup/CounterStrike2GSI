@@ -35,10 +35,10 @@ namespace CounterStrike2GSI
         /// <inheritdoc cref="CounterStrike2GSI.EventMessages.AllPlayersUpdated" />
         public event AllPlayersUpdatedHandler AllPlayersUpdated = delegate { };
 
-        public delegate void PlayerJoinedHandler(PlayerJoined game_event);
+        public delegate void PlayerJoinedHandler(PlayerConnected game_event);
 
-        /// <inheritdoc cref="CounterStrike2GSI.EventMessages.PlayerJoined" />
-        public event PlayerJoinedHandler PlayerJoined = delegate { };
+        /// <inheritdoc cref="CounterStrike2GSI.EventMessages.PlayerConnected" />
+        public event PlayerJoinedHandler PlayerConnected = delegate { };
 
         public delegate void PlayerDisconnectedHandler(PlayerDisconnected game_event);
 
@@ -377,9 +377,9 @@ namespace CounterStrike2GSI
                 RaiseEvent(AllPlayersUpdated, e);
             }
 
-            if (e is PlayerJoined)
+            if (e is PlayerConnected)
             {
-                RaiseEvent(PlayerJoined, e);
+                RaiseEvent(PlayerConnected, e);
             }
 
             if (e is PlayerDisconnected)

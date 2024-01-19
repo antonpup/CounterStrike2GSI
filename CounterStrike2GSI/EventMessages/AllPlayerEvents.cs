@@ -23,11 +23,11 @@ namespace CounterStrike2GSI.EventMessages
     }
 
     /// <summary>
-    /// Event for Player joining the game. 
+    /// Event for Player connecting to the game. 
     /// </summary>
-    public class PlayerJoined : ValueEvent<Player>
+    public class PlayerConnected : ValueEvent<Player>
     {
-        public PlayerJoined(Player value) : base(value)
+        public PlayerConnected(Player value) : base(value)
         {
         }
     }
