@@ -1,146 +1,242 @@
-[![.NET](https://github.com/antonpup/CounterStrike2GSI/actions/workflows/dotnet.yml/badge.svg?branch=master)](https://github.com/antonpup/CounterStrike2GSI/actions/workflows/dotnet.yml) ![GitHub Release](https://img.shields.io/github/v/release/antonpup/CounterStrike2GSI) [![NuGet Version](https://img.shields.io/nuget/v/CounterStrike2GSI)](https://www.nuget.org/packages/CounterStrike2GSI)
+Counter-Strike 2 GSI (Game State Integration)
+===================================
 
-# Counter-Strike 2 GSI (Game State Integration)
+[![.NET](https://github.com/antonpup/CounterStrike2GSI/actions/workflows/dotnet.yml/badge.svg?branch=master)](https://github.com/antonpup/CounterStrike2GSI/actions/workflows/dotnet.yml)
+![GitHub Release](https://img.shields.io/github/v/release/antonpup/CounterStrike2GSI)
+[![NuGet Version](https://img.shields.io/nuget/v/CounterStrike2GSI)](https://www.nuget.org/packages/CounterStrike2GSI)
+
 A C# library to interface with the Game State Integration found in Counter-Strike 2.
 
-## What is Game State Integration
+## About Counter-Strike 2 GSI
+
+This library provides an easy way to implement Game State Integration from Counter-Strike 2 into C# applications through exposing a number of events.
+
+Underneath the hood, once the library is started, it continuously listens for HTTP POST requests made by the game on a specific address and port. When a request is received, the JSON data is parsed into [GameState object](#game-state-structure) and is offered to your C# application through `NewGameState` event. The library also subscribes to `NewGameState` to determine more granular changes to raise more specific events _(such as `BombStateUpdated`, `PlayerWeaponsPickedUp`, or `RoundConcluded` to name a few)_. A full list of exposed Game Events can be found in the [Implemented Game Events](#implemented-game-events) section.
+
+## About Game State Integration
+
+Game State Integration is Valve's implementation for exposing current game state _(such as player health, mana, ammo, etc.)_ and game events without the need to read game memory or risking anti-cheat detection. The information exposed by GSI is limited to what Valve has determined to expose. For example, the game can expose information about all players in the game while spectating a match, but will only expose local player's infomration when playing a game. While the information is limited, there is enough information to create a live game analysis tool, create custom RGB ligthing effects, or create live streaming plugin to show additional game information. For example, GSI can be seen used during competitive tournament live streams to show currently spectated player's information and in-game statistics.
+
 You can read about Game State Integration for Counter-Strike: Global Offensive [here](https://developer.valvesoftware.com/wiki/Counter-Strike:_Global_Offensive_Game_State_Integration).
 
-## About Counter-Strike 2 GSI
-This library provides easy means of implementing Game State Integration from Counter-Strike: 2 into C# applications. Library listens for HTTP POST requests made by the game on a specific address and port. Upon receiving a request, the game state is parsed and can be used.
-
-After starting the `GameStateListener` instance, it will continuously listen for incoming HTTP requests. Upon a received request, the contents will be parsed into a `GameState` object.
-Additionally this library exposes a number of events that can be subscribed to for ease of use.
-
 ## Installation
+
 Install from [nuget](https://www.nuget.org/packages/CounterStrike2GSI).
 
-## Build Counter-Strike 2 GSI
+## Building Counter-Strike 2 GSI
+
 1. Make sure you have Visual Studio installed with `.NET desktop development` workload and `.Net 8.0 Runtime` individual component.
 2. Make sure you have CMake 3.26 or later installed from [https://cmake.org/](https://cmake.org/).
 3. In the repository root directory run: `cmake -B build/ .` to generate the project solution file.
 4. Open the project solution located in `build/CounterStrike2GSI.sln`.
 
-## Usage
-1. Create a `GameStateListener` instance by providing a port or passing a specific URI:
+## How to use
 
-```C#
-GameStateListener gsl = new GameStateListener(4000); //http://localhost:4000/
-GameStateListener gsl = new GameStateListener("http://127.0.0.1:1234/");
+1. Before `CounterStrike2GSI` can be used, you must create a Game State Integration configuration file where you would specify the URI for the HTTP Requests and select which providers the game should expose to your application. To do this you must create a new configuration file in `<PATH TO GAME DIRECTORY>/game/csgo/cfg/gamestate_integration_<CUSTOM NAME>.cfg` where `<CUSTOM NAME>` should be the name of your application (it can be anything). Add the following content to your configuration file (make sure you replace `<CUSTOM NAME>` with your application's name, `<CUSTOM PORT>` with the port you would like to use for your application, and other values can also be tweaked as you wish):
 ```
-
-**Please note**: If your application needs to listen to a URI other than `http://localhost:*/` (for example `http://192.168.2.2:100/`), you need to ensure that it is run with administrator privileges.  
-In this case, `http://127.0.0.1:*/` is **not** equivalent to `http://localhost:*/`.
-
-2. Create a handler for GameState updates or GameEvent updates:
-
-GameState updates:
-```C#
-void OnNewGameState(GameState game_state)
+"<CUSTOM NAME> Integration Configuration"
 {
-    // Do stuff with game_state
-}
-```
-
-GameEvent updates:
-```C#
-void OnGameEvent(CS2GameEvent game_event)
-{
-    // Do stuff with game_event
-    if (game_event is PlayerTookDamage player_took_damage)
+    "uri" "http://localhost:<CUSTOM PORT>/"
+    "timeout" "5.0"
+    "buffer"  "0.1"
+    "throttle" "0.5"
+    "heartbeat" "10.0"
+    "auth"
     {
-        Console.WriteLine($"The player {player_took_damage.PlayerID} took {player_took_damage.Previous - player_took_damage.New} damage!");
+    }
+    "data"
+    {
+        "provider"               "1"
+        "tournamentdraft"        "1"
+        "map"                    "1"
+        "map_round_wins"         "1"
+        "round"                  "1"
+        "player_id"              "1"
+        "player_state"           "1"
+        "player_weapons"         "1"
+        "player_match_stats"     "1"
+        "player_position"        "1"
+        "phase_countdowns"       "1"
+        "allplayers_id"          "1"
+        "allplayers_state"       "1"
+        "allplayers_match_stats" "1"
+        "allplayers_weapons"     "1"
+        "allplayers_position"    "1"
+        "allgrenades"            "1"
+        "bomb"                   "1"
     }
 }
 ```
 
-Specific GameEvent updates:
+2. After installing the [CounterStrike2GSI nuget package](https://www.nuget.org/packages/CounterStrike2GSI) in your project, create an instance of `GameStateListener`, providing a custom port or custom URI you defined in the configuration file in the previous step.
 ```C#
-void OnKillFeed(KillFeed game_event)
+GameStateListener gsl = new GameStateListener(3000); //http://localhost:3000/
+```
+or
+```C#
+GameStateListener gsl = new GameStateListener("http://127.0.0.1:1234/");
+```
+> **Please note**: If your application needs to listen to a URI other than `http://localhost:*/` (for example `http://192.168.0.2:100/`), you will need to run your application with administrator privileges.
+
+3. Create handlers and subscribe for events your application will be using. (A full list of exposed Game Events can be found in the [Implemented Game Events](#implemented-game-events) section.)
+If your application just needs `GameState` information, this is done by subscribing to `NewGameState` event and creating a handler for it:
+```C#
+...
+gsl.NewGameState += OnNewGameState;
+...
+
+void OnNewGameState(GameState gs)
 {
-    // Do stuff with KillFeed game_event
-    Console.WriteLine($"{game_event.Killer.Name} killed {game_event.Victim.Name} with {game_event.Weapon.Name}{(game_event.IsHeadshot ? " as a headshot." : ".")}");
+    // Read information from the game state.
 }
 ```
-
-3. Subscribe to the `NewGameState` event or GameEvent updates:
-
+If you would like to utilize `Game Events` in your application, this is done by subscribing to an event from the [Implemented Game Events](#implemented-game-events) list and creating a handler for it:
 ```C#
-gsl.NewGameState += OnNewGameState; // Receive Game State updates
-gsl.GameEvent += OnGameEvent; // Receive Game Event updates
-gsl.KillFeed += OnKillFeed; // Receive KillFeed Game Events only
+...
+gsl.GameEvent += OnGameEvent; // Will fire on every GameEvent
+gsl.BombStateUpdated += OnBombStateUpdated; // Will only fire on BombStateUpdated events.
+gsl.PlayerWeaponsPickedUp += OnPlayerWeaponsPickedUp; // Will only fire on PlayerWeaponsPickedUp events.
+gsl.RoundConcluded += OnRoundConcluded; // Will only fire on RoundConcluded events.
+...
+
+void OnGameEvent(CS2GameEvent game_event)
+{
+    // Read information from the game event.
+    
+    if (game_event is PlayerTookDamage player_took_damage)
+    {
+        Console.WriteLine($"The player {player_took_damage.Player.Name} took {player_took_damage.Previous - player_took_damage.New} damage!");
+    }
+    else if (game_event is PlayerActiveWeaponChanged active_weapon_changed)
+    {
+        Console.WriteLine($"The player {active_weapon_changed.Player.Name} changed their active weapon to {active_weapon_changed.New.Name} from {active_weapon_changed.Previous.Name}.");
+    }
+}
+
+void OnBombStateUpdated(BombStateUpdated game_event)
+{
+    Console.WriteLine($"The bomb is now {game_event.New}.");
+}
+
+void OnPlayerWeaponsPickedUp(PlayerWeaponsPickedUp game_event)
+{
+    Console.WriteLine($"The player {game_event.Player.Name} picked up the following weapons:");
+    foreach (var weapon in game_event.Weapons)
+    {
+        Console.WriteLine($"\t{weapon.Name}");
+    }
+}
+
+void OnRoundConcluded(RoundConcluded game_event)
+{
+    Console.WriteLine($"Round {game_event.Round} concluded by {game_event.WinningTeam} for reason: {game_event.RoundConclusionReason}");
+}
+```
+Both `NewGameState` and `Game Events` can be used alongside one another. The `Game Events` are generated based on the `GameState`, and are there to provide ease of use.
+
+4. Finally you want to start the `GameStateListener` to begin capturing HTTP POST requests. This is done by calling `Start()` method of `GameStateListener`. The method will return `True` if started successfully, or `False` when failed to start. Often the failure to start is due to insufficient permissions or another application is already using the same port.
+```C#
+if (!gsl.Start())
+{
+    // GameStateListener could not start.
+}
+// GameStateListener started and is listening for Game State requests.
 ```
 
-4. Use `GameStateListener.Start()` to start listening for HTTP POST requests from the game client. This method will return `false` if starting the listener fails (most likely due to insufficient privileges).
-
 ## Implemented Game Events
-* AllGrenadesEvents
-  * `AllGrenadesUpdated`
-  * `GrenadeUpdated`
-* AllPlayersEvents
-  * `AllPlayersUpdated`
-* AuthEvents
-  * `AuthUpdated`
-* BombEvents
-  * `BombUpdated`
-  * `BombPlanting`
-  * `BombPlanted`
-  * `BombDefused`
-  * `BombDefusing`
-  * `BombDropped`
-  * `BombPickedup`
-  * `BombExploded`
-* KillfeedEvents
-  * `KillFeed`
-* MapEvents
-  * `MapUpdated`
-  * `TeamStatisticsUpdated`
-  * `RoundChanged`
-  * `RoundConcluded`
-  * `RoundStarted`
-  * `LevelChanged`
-* PhaseCountdownEvents
-  * `PhaseCountdownsUpdated`
-* PlayerEvents
-  * `PlayerUpdated`
-  * `PlayerTeamChanged`
-  * `PlayerActivityChanged`
-  * `PlayerStateChanged`
-  * `PlayerHealthChanged`
-  * `PlayerDied`
-  * `PlayerRespawned`
-  * `PlayerTookDamage`
-  * `PlayerArmorChanged`
-  * `PlayerHelmetChanged`
-  * `PlayerFlashAmountChanged`
-  * `PlayerSmokedAmountChanged`
-  * `PlayerBurningAmountChanged`
-  * `PlayerMoneyAmountChanged`
-  * `PlayerRoundKillsChanged`
-  * `PlayerRoundHeadshotKillsChanged`
-  * `PlayerRoundTotalDamageChanged`
-  * `PlayerEquipmentValueChanged`
-  * `PlayerDefusekitChanged`
-  * `PlayerWeaponChanged`
-  * `PlayerActiveWeaponChanged`
-  * `PlayerWeaponsPickedUp`
-  * `PlayerStatsChanged`
-  * `PlayerKillsChanged`
-  * `PlayerGotKill`
-  * `PlayerAssistsChanged`
-  * `PlayerDeathsChanged`
-  * `PlayerMVPsChanged`
-  * `PlayerScoreChanged`
-* ProviderEvents
-  * `ProviderUpdated`
-* RoundEvents
-  * `RoundUpdated`
-  * `RoundPhaseUpdated`
-  * `BombStateUpdated`
-  * `TeamRoundVictory`
-  * `TeamRoundLoss`
+
+* `GameEvent` The base game event, will fire for all other listed events.
+
+### AllGrenades Events
+
+* `AllGrenadesUpdated`
+* `GrenadeUpdated`
+* `NewGrenade`
+* `ExpiredGrenade`
+
+### AllPlayers Events
+
+* `AllPlayersUpdated`
+* `PlayerConnected`
+* `PlayerDisconnected`
+
+### Auth Events
+
+* `AuthUpdated`
+
+### Bomb Events
+
+* `BombUpdated`
+* `BombPlanting`
+* `BombPlanted`
+* `BombDefused`
+* `BombDefusing`
+* `BombDropped`
+* `BombPickedup`
+* `BombExploded`
+
+### Killfeed Events
+
+* `KillFeed`
+
+### Map Events
+
+* `MapUpdated`
+* `TeamStatisticsUpdated`
+* `RoundChanged`
+* `RoundConcluded`
+* `RoundStarted`
+* `LevelChanged`
+
+### PhaseCountdown Events
+
+* `PhaseCountdownsUpdated`
+
+### Player Events
+
+* `PlayerUpdated`
+* `PlayerTeamChanged`
+* `PlayerActivityChanged`
+* `PlayerStateChanged`
+* `PlayerHealthChanged`
+* `PlayerDied`
+* `PlayerRespawned`
+* `PlayerTookDamage`
+* `PlayerArmorChanged`
+* `PlayerHelmetChanged`
+* `PlayerFlashAmountChanged`
+* `PlayerSmokedAmountChanged`
+* `PlayerBurningAmountChanged`
+* `PlayerMoneyAmountChanged`
+* `PlayerRoundKillsChanged`
+* `PlayerRoundHeadshotKillsChanged`
+* `PlayerRoundTotalDamageChanged`
+* `PlayerEquipmentValueChanged`
+* `PlayerDefusekitChanged`
+* `PlayerWeaponChanged`
+* `PlayerActiveWeaponChanged`
+* `PlayerWeaponsPickedUp`
+* `PlayerStatsChanged`
+* `PlayerKillsChanged`
+* `PlayerGotKill`
+* `PlayerAssistsChanged`
+* `PlayerDeathsChanged`
+* `PlayerMVPsChanged`
+* `PlayerScoreChanged`
+
+### Provider Events
+
+* `ProviderUpdated`
+
+### Round Events
+* `RoundUpdated`
+* `RoundPhaseUpdated`
+* `BombStateUpdated`
+* `TeamRoundVictory`
+* `TeamRoundLoss`
 
 ## Game State Structure
+
 ```
 GameState
 +-- Auth
@@ -244,55 +340,18 @@ GameState
 ```
 
 ## Null value handling
-In case the JSON did not contain the requested information, these values will be returned:
 
-Type    |Default value
---------|-------------
-bool    | false
-int     | -1
-long    | -1
-float   | -1
-string  | String.Empty
+In the event that the game state is missing information, a default value will be returned:
 
-All Enums have a value `enum.Undefined` that serves the same purpose.
+| Type     | Default value  |
+|:---------|:---------------|
+| `bool`   | `False`        |
+| `int`    | `-1`           |
+| `long`   | `-1`           |
+| `float`  | `-1`           |
+| `string` | `String.Empty` |
+| `enum`   | `Undefined`    |
 
+### Weapon names
 
-You will also need to create a custom `gamestate_integration_*.cfg` in `game/csgo/cfg/`, for example:  
-`gamestate_integration_test.cfg`:  
-```
-"CS2 Integration v1.0"
-{
-    "uri" "http://localhost:4000"
-    "timeout" "5.0"
-    "buffer"  "0.1"
-    "throttle" "0.5"
-    "heartbeat" "10.0"
-    "auth"
-    {
-        "key1" "AUTHKEY" 
-    }
-    "data"
-    {
-        "provider"               "1"
-        "tournamentdraft"        "1"
-        "map"                    "1"
-        "map_round_wins"         "1"
-        "round"                  "1"
-        "player_id"              "1"
-        "player_state"           "1"
-        "player_weapons"         "1"
-        "player_match_stats"     "1"
-        "player_position"        "1"
-        "phase_countdowns"       "1"
-        "allplayers_id"          "1"
-        "allplayers_state"       "1"
-        "allplayers_match_stats" "1"
-        "allplayers_weapons"     "1"
-        "allplayers_position"    "1"
-        "allgrenades"            "1"
-        "bomb"                   "1"
-    }
-}
-```
-
-**Please note**: In order to run this test application without explicit administrator privileges, you need to use the URI `http://localhost:<port>` in this configuration file.
+A full list of weapon names can be found [here](https://counterstrike.fandom.com/wiki/Developer_console#Available_entities).
