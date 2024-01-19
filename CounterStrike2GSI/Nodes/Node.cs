@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -282,7 +282,7 @@ namespace CounterStrike2GSI.Nodes
                 }
                 else
                 {
-                    return_string += $", ";
+                    return_string += ", ";
                 }
 
                 return_string += $"{kvp.Key}: {kvp.Value}";
@@ -295,7 +295,7 @@ namespace CounterStrike2GSI.Nodes
         public override bool Equals(object obj)
         {
             return obj is NodeMap<Key, Value> other &&
-                Count == other.Count && !this.Except(other).Any();
+                this.SequenceEqual(other);
         }
 
         /// <inheritdoc/>
@@ -347,7 +347,7 @@ namespace CounterStrike2GSI.Nodes
                 }
                 else
                 {
-                    return_string += $", ";
+                    return_string += ", ";
                 }
 
                 return_string += $"{item}";
@@ -360,7 +360,7 @@ namespace CounterStrike2GSI.Nodes
         public override bool Equals(object obj)
         {
             return obj is NodeList<Value> other &&
-                Count == other.Count && !this.Except(other).Any();
+                this.SequenceEqual(other);
         }
 
         /// <inheritdoc/>
