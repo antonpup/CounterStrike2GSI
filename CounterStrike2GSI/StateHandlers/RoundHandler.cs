@@ -39,14 +39,15 @@ namespace CounterStrike2GSI
                 return;
             }
 
-            if (!evt.New.Phase.Equals(evt.Previous.Phase))
-            {
-                dispatcher.Broadcast(new RoundPhaseUpdated(evt.New.Phase, evt.Previous.Phase));
-            }
-
+            // Bomb state needs to be propagated before round is considered over.
             if (!evt.New.BombState.Equals(evt.Previous.BombState))
             {
                 dispatcher.Broadcast(new BombStateUpdated(evt.New.BombState, evt.Previous.BombState));
+            }
+
+            if (!evt.New.Phase.Equals(evt.Previous.Phase))
+            {
+                dispatcher.Broadcast(new RoundPhaseUpdated(evt.New.Phase, evt.Previous.Phase));
             }
 
             if (!evt.New.WinningTeam.Equals(evt.Previous.WinningTeam))
