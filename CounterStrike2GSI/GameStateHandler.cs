@@ -49,6 +49,7 @@ namespace CounterStrike2GSI
 
             if (!previous_game_state.Player.Equals(game_state.Player))
             {
+                // Depends on ProviderUpdated. This broadcast must happen after ProviderUpdated.
                 dispatcher.Broadcast(new PlayerUpdated(game_state.Player, previous_game_state.Player, game_state.Player.SteamID));
             }
 

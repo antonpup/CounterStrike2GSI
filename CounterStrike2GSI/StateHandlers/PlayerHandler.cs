@@ -7,8 +7,11 @@ namespace CounterStrike2GSI
 {
     public class PlayerHandler : EventHandler<CS2GameEvent>
     {
+        private Provider _provider_cache = new Provider();
+
         public PlayerHandler(ref EventDispatcher<CS2GameEvent> EventDispatcher) : base(ref EventDispatcher)
         {
+            dispatcher.Subscribe<ProviderUpdated>(OnProviderUpdated);
             dispatcher.Subscribe<PlayerUpdated>(OnPlayerUpdated);
             dispatcher.Subscribe<PlayerStateChanged>(OnPlayerStateChanged);
             dispatcher.Subscribe<PlayerStatsChanged>(OnPlayerStatsChanged);
@@ -16,12 +19,25 @@ namespace CounterStrike2GSI
 
         ~PlayerHandler()
         {
+            dispatcher.Unsubscribe<ProviderUpdated>(OnProviderUpdated);
             dispatcher.Unsubscribe<PlayerUpdated>(OnPlayerUpdated);
             dispatcher.Unsubscribe<PlayerStateChanged>(OnPlayerStateChanged);
             dispatcher.Unsubscribe<PlayerStatsChanged>(OnPlayerStatsChanged);
         }
 
-        private void OnPlayerUpdated(CS2GameEvent e)
+        private void OnProviderUpdated(CS2GameEvent e)
+        {
+            ProviderUpdated evt = (e as ProviderUpdated);
+
+            if (evt == null)
+            {
+                return;
+            }
+
+            _provider_cache = evt.New;
+        }
+
+            private void OnPlayerUpdated(CS2GameEvent e)
         {
             PlayerUpdated evt = (e as PlayerUpdated);
 
@@ -30,7 +46,7 @@ namespace CounterStrike2GSI
                 return;
             }
 
-            if (!evt.New.SteamID.Equals(evt.Previous.SteamID))
+            if (!evt.New.SteamID.Equals(evt.Previous.SteamID) && !evt.New.SteamID.Equals(_provider_cache.SteamID))
             {
                 // Switched spectating to another player, no need for updates.
                 return;
@@ -59,15 +75,16 @@ namespace CounterStrike2GSI
                 foreach (var weapon in evt.New.Weapons)
                 {
                     var previous_weapon = evt.Previous.Weapons.FirstOrDefault(value => value.Name == weapon.Name, new Weapon());
-                    if (!previous_weapon.IsValid())
+                    if (!previous_weapon.IsValid() && weapon.Type != WeaponType.Knife && weapon.Type != WeaponType.Fists)
                     {
                         // The player did not previously have the weapon.
                         new_weapons.Add(weapon);
                     }
                     else
                     {
-                        if (!weapon.Name.Equals(previous_weapon.Name))
+                        if (!weapon.Name.Equals(previous_weapon.Name) && (evt.New.State.Health > 0))
                         {
+                            // Dead players cannot change their weapons.
                             dispatcher.Broadcast(new PlayerWeaponChanged(weapon, previous_weapon, evt.New));
                         }
                     }
@@ -76,7 +93,7 @@ namespace CounterStrike2GSI
                 foreach (var weapon in evt.Previous.Weapons)
                 {
                     var new_weapon = evt.New.Weapons.FirstOrDefault(value => value.Name == weapon.Name, new Weapon());
-                    if (!new_weapon.IsValid())
+                    if (!new_weapon.IsValid() && weapon.Type != WeaponType.Knife && weapon.Type != WeaponType.Fists)
                     {
                         // The player no longer has the weapon.
                         lost_weapons.Add(weapon);
@@ -96,8 +113,9 @@ namespace CounterStrike2GSI
                 var active_weapon = evt.New.GetActiveWeapon();
                 var previous_active_weapon = evt.Previous.GetActiveWeapon();
 
-                if (!active_weapon.Name.Equals(previous_active_weapon.Name))
+                if (!active_weapon.Name.Equals(previous_active_weapon.Name) && (evt.New.State.Health > 0))
                 {
+                    // Dead players cannot change their weapons.
                     dispatcher.Broadcast(new PlayerActiveWeaponChanged(active_weapon, previous_active_weapon, evt.New));
                 }
             }
