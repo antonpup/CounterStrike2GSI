@@ -52,7 +52,7 @@ namespace CounterStrike2GSI
                 {
                     if (evt.New.Round != 0)
                     {
-                        var round_conclusion = evt.New.RoundWins[evt.New.Round];
+                        var round_conclusion = evt.New.RoundWins[evt.Previous.Round + 1]; // RoundWins is off by one. Where RoundWins[1] == Round 0.
                         PlayerTeam winning_team = PlayerTeam.Undefined;
 
                         switch (round_conclusion)
