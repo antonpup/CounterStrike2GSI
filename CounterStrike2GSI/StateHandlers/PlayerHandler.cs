@@ -37,7 +37,7 @@ namespace CounterStrike2GSI
             _provider_cache = evt.New;
         }
 
-            private void OnPlayerUpdated(CS2GameEvent e)
+        private void OnPlayerUpdated(CS2GameEvent e)
         {
             PlayerUpdated evt = (e as PlayerUpdated);
 
