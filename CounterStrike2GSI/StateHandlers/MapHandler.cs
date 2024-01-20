@@ -50,7 +50,9 @@ namespace CounterStrike2GSI
 
                 if (evt.New.Round > evt.Previous.Round)
                 {
-                    if (evt.New.Round != 0)
+                    var has_round_conclusion = evt.New.RoundWins.ContainsKey(evt.Previous.Round + 1);
+
+                    if (evt.New.Round != 0 && has_round_conclusion)
                     {
                         var round_conclusion = evt.New.RoundWins[evt.Previous.Round + 1]; // RoundWins is off by one. Where RoundWins[1] == Round 0.
                         PlayerTeam winning_team = PlayerTeam.Undefined;
