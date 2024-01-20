@@ -64,6 +64,7 @@ SET(SOURCES
     StateHandlers/PlayerHandler.cs
     StateHandlers/ProviderHandler.cs
     StateHandlers/RoundHandler.cs
+    Utils/SteamUtils.cs
 )
 
 SET(README "${CMAKE_SOURCE_DIR}/README.md")
