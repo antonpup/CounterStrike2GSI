@@ -10,11 +10,15 @@ namespace CounterStrike2GSI
         public MapHandler(ref EventDispatcher<CS2GameEvent> EventDispatcher) : base(ref EventDispatcher)
         {
             dispatcher.Subscribe<MapUpdated>(OnMapUpdated);
+            dispatcher.Subscribe<TeamStatisticsUpdated>(OnTeamStatisticsUpdated);
+            dispatcher.Subscribe<MapPhaseChanged>(OnMapPhaseChanged);
         }
 
         ~MapHandler()
         {
             dispatcher.Unsubscribe<MapUpdated>(OnMapUpdated);
+            dispatcher.Unsubscribe<TeamStatisticsUpdated>(OnTeamStatisticsUpdated);
+            dispatcher.Unsubscribe<MapPhaseChanged>(OnMapPhaseChanged);
         }
 
         private void OnMapUpdated(CS2GameEvent e)
@@ -29,6 +33,11 @@ namespace CounterStrike2GSI
             if (!evt.New.Name.Equals(evt.Previous.Name))
             {
                 dispatcher.Broadcast(new LevelChanged(evt.New.Name, evt.Previous.Name));
+            }
+
+            if (!evt.New.Mode.Equals(evt.Previous.Mode))
+            {
+                dispatcher.Broadcast(new GamemodeChanged(evt.New.Mode, evt.Previous.Mode));
             }
 
             if (!evt.New.CTStatistics.Equals(evt.Previous.CTStatistics))
@@ -77,6 +86,95 @@ namespace CounterStrike2GSI
 
                     dispatcher.Broadcast(new RoundStarted(evt.New.Round, is_first_round, is_last_round));
                 }
+            }
+
+            if (!evt.New.Phase.Equals(evt.Previous.Phase))
+            {
+                dispatcher.Broadcast(new MapPhaseChanged(evt.New.Phase, evt.Previous.Phase));
+            }
+        }
+
+        private void OnTeamStatisticsUpdated(CS2GameEvent e)
+        {
+            TeamStatisticsUpdated evt = (e as TeamStatisticsUpdated);
+
+            if (evt == null)
+            {
+                return;
+            }
+
+            if (!evt.New.Score.Equals(evt.Previous.Score))
+            {
+                dispatcher.Broadcast(new TeamScoreChanged(evt.New.Score, evt.Previous.Score, evt.Team));
+            }
+
+            if (!evt.New.RemainingTimeouts.Equals(evt.Previous.RemainingTimeouts))
+            {
+                dispatcher.Broadcast(new TeamRemainingTimeoutsChanged(evt.New.RemainingTimeouts, evt.Previous.RemainingTimeouts, evt.Team));
+            }
+        }
+
+        private void OnMapPhaseChanged(CS2GameEvent e)
+        {
+            MapPhaseChanged evt = (e as MapPhaseChanged);
+
+            if (evt == null)
+            {
+                return;
+            }
+
+            switch (evt.Previous)
+            {
+                case Phase.Warmup:
+                    dispatcher.Broadcast(new WarmupOver());
+                    break;
+                case Phase.Intermission:
+                    dispatcher.Broadcast(new IntermissionOver());
+                    break;
+                case Phase.Freezetime:
+                    dispatcher.Broadcast(new FreezetimeOver());
+                    break;
+                case Phase.Paused:
+                    dispatcher.Broadcast(new PauseOver());
+                    break;
+                case Phase.Timeout_T:
+                    dispatcher.Broadcast(new TimeoutOver(PlayerTeam.T));
+                    break;
+                case Phase.Timeout_CT:
+                    dispatcher.Broadcast(new TimeoutOver(PlayerTeam.CT));
+                    break;
+                default:
+                    break;
+            }
+
+            switch (evt.New)
+            {
+                case Phase.Warmup:
+                    dispatcher.Broadcast(new WarmupStarted());
+                    break;
+                case Phase.Intermission:
+                    dispatcher.Broadcast(new IntermissionStarted());
+                    break;
+                case Phase.Freezetime:
+                    dispatcher.Broadcast(new FreezetimeStarted());
+                    break;
+                case Phase.Paused:
+                    dispatcher.Broadcast(new PauseStarted());
+                    break;
+                case Phase.Timeout_T:
+                    dispatcher.Broadcast(new TimeoutStarted(PlayerTeam.T));
+                    break;
+                case Phase.Timeout_CT:
+                    dispatcher.Broadcast(new TimeoutStarted(PlayerTeam.CT));
+                    break;
+                case Phase.Live:
+                    dispatcher.Broadcast(new MatchStarted());
+                    break;
+                case Phase.Gameover:
+                    dispatcher.Broadcast(new Gameover());
+                    break;
+                default:
+                    break;
             }
         }
     }

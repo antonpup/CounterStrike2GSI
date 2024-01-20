@@ -116,10 +116,25 @@ namespace CounterStrike2GSI
         /// <inheritdoc cref="CounterStrike2GSI.EventMessages.MapUpdated" />
         public event MapUpdatedHandler MapUpdated = delegate { };
 
+        public delegate void GamemodeChangedHandler(GamemodeChanged game_event);
+
+        /// <inheritdoc cref="CounterStrike2GSI.EventMessages.GamemodeChanged" />
+        public event GamemodeChangedHandler GamemodeChanged = delegate { };
+
         public delegate void TeamStatisticsUpdatedHandler(TeamStatisticsUpdated game_event);
 
         /// <inheritdoc cref="CounterStrike2GSI.EventMessages.TeamStatisticsUpdated" />
         public event TeamStatisticsUpdatedHandler TeamStatisticsUpdated = delegate { };
+
+        public delegate void TeamScoreChangedHandler(TeamScoreChanged game_event);
+
+        /// <inheritdoc cref="CounterStrike2GSI.EventMessages.TeamScoreChanged" />
+        public event TeamScoreChangedHandler TeamScoreChanged = delegate { };
+
+        public delegate void TeamRemainingTimeoutsChangedHandler(TeamRemainingTimeoutsChanged game_event);
+
+        /// <inheritdoc cref="CounterStrike2GSI.EventMessages.TeamRemainingTimeoutsChanged" />
+        public event TeamRemainingTimeoutsChangedHandler TeamRemainingTimeoutsChanged = delegate { };
 
         public delegate void RoundChangedHandler(RoundChanged game_event);
 
@@ -140,6 +155,71 @@ namespace CounterStrike2GSI
 
         /// <inheritdoc cref="CounterStrike2GSI.EventMessages.LevelChanged" />
         public event LevelChangedHandler LevelChanged = delegate { };
+
+        public delegate void MapPhaseChangedHandler(MapPhaseChanged game_event);
+
+        /// <inheritdoc cref="CounterStrike2GSI.EventMessages.MapPhaseChanged" />
+        public event MapPhaseChangedHandler MapPhaseChanged = delegate { };
+
+        public delegate void WarmupStartedHandler(WarmupStarted game_event);
+
+        /// <inheritdoc cref="CounterStrike2GSI.EventMessages.WarmupStarted" />
+        public event WarmupStartedHandler WarmupStarted = delegate { };
+
+        public delegate void WarmupOverHandler(WarmupOver game_event);
+
+        /// <inheritdoc cref="CounterStrike2GSI.EventMessages.WarmupOver" />
+        public event WarmupOverHandler WarmupOver = delegate { };
+
+        public delegate void IntermissionStartedHandler(IntermissionStarted game_event);
+
+        /// <inheritdoc cref="CounterStrike2GSI.EventMessages.IntermissionStarted" />
+        public event IntermissionStartedHandler IntermissionStarted = delegate { };
+
+        public delegate void IntermissionOverHandler(IntermissionOver game_event);
+
+        /// <inheritdoc cref="CounterStrike2GSI.EventMessages.IntermissionOver" />
+        public event IntermissionOverHandler IntermissionOver = delegate { };
+
+        public delegate void FreezetimeStartedHandler(FreezetimeStarted game_event);
+
+        /// <inheritdoc cref="CounterStrike2GSI.EventMessages.FreezetimeStarted" />
+        public event FreezetimeStartedHandler FreezetimeStarted = delegate { };
+
+        public delegate void FreezetimeOverHandler(FreezetimeOver game_event);
+
+        /// <inheritdoc cref="CounterStrike2GSI.EventMessages.FreezetimeOver" />
+        public event FreezetimeOverHandler FreezetimeOver = delegate { };
+
+        public delegate void PauseStartedHandler(PauseStarted game_event);
+
+        /// <inheritdoc cref="CounterStrike2GSI.EventMessages.PauseStarted" />
+        public event PauseStartedHandler PauseStarted = delegate { };
+
+        public delegate void PauseOverHandler(PauseOver game_event);
+
+        /// <inheritdoc cref="CounterStrike2GSI.EventMessages.PauseOver" />
+        public event PauseOverHandler PauseOver = delegate { };
+
+        public delegate void TimeoutStartedHandler(TimeoutStarted game_event);
+
+        /// <inheritdoc cref="CounterStrike2GSI.EventMessages.TimeoutStarted" />
+        public event TimeoutStartedHandler TimeoutStarted = delegate { };
+
+        public delegate void TimeoutOverHandler(TimeoutOver game_event);
+
+        /// <inheritdoc cref="CounterStrike2GSI.EventMessages.TimeoutOver" />
+        public event TimeoutOverHandler TimeoutOver = delegate { };
+
+        public delegate void MatchStartedHandler(MatchStarted game_event);
+
+        /// <inheritdoc cref="CounterStrike2GSI.EventMessages.MatchStarted" />
+        public event MatchStartedHandler MatchStarted = delegate { };
+
+        public delegate void GameoverHandler(Gameover game_event);
+
+        /// <inheritdoc cref="CounterStrike2GSI.EventMessages.Gameover" />
+        public event GameoverHandler Gameover = delegate { };
 
         #endregion
 
@@ -442,9 +522,24 @@ namespace CounterStrike2GSI
                 RaiseEvent(MapUpdated, e);
             }
 
+            if (e is GamemodeChanged)
+            {
+                RaiseEvent(GamemodeChanged, e);
+            }
+
             if (e is TeamStatisticsUpdated)
             {
                 RaiseEvent(TeamStatisticsUpdated, e);
+            }
+
+            if (e is TeamScoreChanged)
+            {
+                RaiseEvent(TeamScoreChanged, e);
+            }
+
+            if (e is TeamRemainingTimeoutsChanged)
+            {
+                RaiseEvent(TeamRemainingTimeoutsChanged, e);
             }
 
             if (e is RoundChanged)
@@ -465,6 +560,71 @@ namespace CounterStrike2GSI
             if (e is LevelChanged)
             {
                 RaiseEvent(LevelChanged, e);
+            }
+
+            if (e is MapPhaseChanged)
+            {
+                RaiseEvent(MapPhaseChanged, e);
+            }
+
+            if (e is WarmupStarted)
+            {
+                RaiseEvent(WarmupStarted, e);
+            }
+
+            if (e is WarmupOver)
+            {
+                RaiseEvent(WarmupOver, e);
+            }
+
+            if (e is IntermissionStarted)
+            {
+                RaiseEvent(IntermissionStarted, e);
+            }
+
+            if (e is IntermissionOver)
+            {
+                RaiseEvent(IntermissionOver, e);
+            }
+
+            if (e is FreezetimeStarted)
+            {
+                RaiseEvent(FreezetimeStarted, e);
+            }
+
+            if (e is FreezetimeOver)
+            {
+                RaiseEvent(FreezetimeOver, e);
+            }
+
+            if (e is PauseStarted)
+            {
+                RaiseEvent(PauseStarted, e);
+            }
+
+            if (e is PauseOver)
+            {
+                RaiseEvent(PauseOver, e);
+            }
+
+            if (e is TimeoutStarted)
+            {
+                RaiseEvent(TimeoutStarted, e);
+            }
+
+            if (e is TimeoutOver)
+            {
+                RaiseEvent(TimeoutOver, e);
+            }
+
+            if (e is MatchStarted)
+            {
+                RaiseEvent(MatchStarted, e);
+            }
+
+            if (e is Gameover)
+            {
+                RaiseEvent(Gameover, e);
             }
 
             if (e is PhaseCountdownsUpdated)
