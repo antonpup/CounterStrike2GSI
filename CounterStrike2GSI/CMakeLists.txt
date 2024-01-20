@@ -17,6 +17,7 @@ INCLUDE(CSharpUtilities)
 
 SET(SOURCES
     CS2EventsInterface.cs
+    CS2GSIFile.cs
     EventDispatcher.cs
     EventHandler.cs
     EventsInterface.cs
