@@ -43,13 +43,24 @@ namespace CounterStrike2GSI
         {
             get
             {
-                return _current_game_state;
+                lock (gamestate_lock)
+                {
+                    return _current_game_state;
+                }
             }
             private set
             {
-                _previous_game_state = _current_game_state;
-                _current_game_state = value;
-                RaiseOnNewGameState(ref _current_game_state);
+                lock (gamestate_lock)
+                {
+                    if (_current_game_state.Equals(value))
+                    {
+                        return;
+                    }
+
+                    _previous_game_state = _current_game_state;
+                    _current_game_state = value;
+                    RaiseOnNewGameState(ref _current_game_state);
+                }
             }
         }
 
@@ -67,6 +78,8 @@ namespace CounterStrike2GSI
         /// Event for handing a newly received game state.
         /// </summary>
         public event NewGameStateHandler NewGameState = delegate { };
+
+        private readonly object gamestate_lock = new object();
 
         private bool _is_running = false;
         private int _port;
@@ -223,7 +236,7 @@ namespace CounterStrike2GSI
         {
             RaiseEvent(NewGameState, game_state);
 
-            _game_state_handler.OnNewGameState(CurrentGameState);
+            _game_state_handler.OnNewGameState(game_state);
         }
 
         /// <summary>
