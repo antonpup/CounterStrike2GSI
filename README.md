@@ -187,11 +187,27 @@ if (!gsl.Start())
 ### Map Events
 
 * `MapUpdated`
+* `GamemodeChanged`
 * `TeamStatisticsUpdated`
+* `TeamScoreChanged`
+* `TeamRemainingTimeoutsChanged`
 * `RoundChanged`
 * `RoundConcluded`
 * `RoundStarted`
 * `LevelChanged`
+* `MapPhaseChanged`
+* `WarmupStarted`
+* `WarmupOver`
+* `IntermissionStarted`
+* `IntermissionOver`
+* `FreezetimeStarted`
+* `FreezetimeOver`
+* `PauseStarted`
+* `PauseOver`
+* `TimeoutStarted`
+* `TimeoutOver`
+* `MatchStarted`
+* `Gameover`
 
 ### PhaseCountdown Events
 
