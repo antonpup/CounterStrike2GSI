@@ -1,9 +1,10 @@
 Counter-Strike 2 GSI (Game State Integration)
-===================================
+=============================================
 
 [![.NET](https://github.com/antonpup/CounterStrike2GSI/actions/workflows/dotnet.yml/badge.svg?branch=master)](https://github.com/antonpup/CounterStrike2GSI/actions/workflows/dotnet.yml)
-![GitHub Release](https://img.shields.io/github/v/release/antonpup/CounterStrike2GSI)
+[![GitHub Release](https://img.shields.io/github/v/release/antonpup/CounterStrike2GSI)](https://github.com/antonpup/CounterStrike2GSI/releases/latest)
 [![NuGet Version](https://img.shields.io/nuget/v/CounterStrike2GSI)](https://www.nuget.org/packages/CounterStrike2GSI)
+[![NuGet Downloads](https://img.shields.io/nuget/dt/CounterStrike2GSI?label=nuget%20downloads)](https://www.nuget.org/packages/CounterStrike2GSI)
 
 A C# library to interface with the Game State Integration found in Counter-Strike 2.
 
@@ -32,43 +33,7 @@ Install from [nuget](https://www.nuget.org/packages/CounterStrike2GSI).
 
 ## How to use
 
-1. Before `CounterStrike2GSI` can be used, you must create a Game State Integration configuration file where you would specify the URI for the HTTP Requests and select which providers the game should expose to your application. To do this you must create a new configuration file in `<PATH TO GAME DIRECTORY>/game/csgo/cfg/gamestate_integration_<CUSTOM NAME>.cfg` where `<CUSTOM NAME>` should be the name of your application (it can be anything). Add the following content to your configuration file (make sure you replace `<CUSTOM NAME>` with your application's name, `<CUSTOM PORT>` with the port you would like to use for your application, and other values can also be tweaked as you wish):
-```
-"<CUSTOM NAME> Integration Configuration"
-{
-    "uri" "http://localhost:<CUSTOM PORT>/"
-    "timeout" "5.0"
-    "buffer"  "0.1"
-    "throttle" "0.5"
-    "heartbeat" "10.0"
-    "auth"
-    {
-    }
-    "data"
-    {
-        "provider"               "1"
-        "tournamentdraft"        "1"
-        "map"                    "1"
-        "map_round_wins"         "1"
-        "round"                  "1"
-        "player_id"              "1"
-        "player_state"           "1"
-        "player_weapons"         "1"
-        "player_match_stats"     "1"
-        "player_position"        "1"
-        "phase_countdowns"       "1"
-        "allplayers_id"          "1"
-        "allplayers_state"       "1"
-        "allplayers_match_stats" "1"
-        "allplayers_weapons"     "1"
-        "allplayers_position"    "1"
-        "allgrenades"            "1"
-        "bomb"                   "1"
-    }
-}
-```
-
-2. After installing the [CounterStrike2GSI nuget package](https://www.nuget.org/packages/CounterStrike2GSI) in your project, create an instance of `GameStateListener`, providing a custom port or custom URI you defined in the configuration file in the previous step.
+1. After installing the [CounterStrike2GSI nuget package](https://www.nuget.org/packages/CounterStrike2GSI) in your project, create an instance of `GameStateListener`, providing a custom port or custom URI you defined in the configuration file in the previous step.
 ```C#
 GameStateListener gsl = new GameStateListener(3000); //http://localhost:3000/
 ```
@@ -77,6 +42,46 @@ or
 GameStateListener gsl = new GameStateListener("http://127.0.0.1:1234/");
 ```
 > **Please note**: If your application needs to listen to a URI other than `http://localhost:*/` (for example `http://192.168.0.2:100/`), you will need to run your application with administrator privileges.
+
+2. Create a Game State Integration configuration file. This can either be done manually by creating a file `<PATH TO GAME DIRECTORY>/game/csgo/cfg/gamestate_integration_<CUSTOM NAME>.cfg` where `<CUSTOM NAME>` should be the name of your application (it can be anything). Or you can use the built-in function `GenerateGSIConfigFile()` to automatically locate the game directory and generate the file. The function will automatically take into consideration the URI specified when a `GameStateListener` instance was created in the previous step.
+```C#
+if (!gsl.GenerateGSIConfigFile("Example"))
+{
+    Console.WriteLine("Could not generate GSI configuration file.");
+}
+```
+The function `GenerateGSIConfigFile` takes a string `name` as the parameter. This is the `<CUSTOM NAME>` mentioned earlier. The function will also return `True` when file generation was successful, and `False` otherwise. The resulting file from the above code should look like this:
+```
+"Example Integration Configuration"
+{
+    "uri"          "http://localhost:3000/"
+    "timeout"      "5.0"
+    "buffer"       "0.1"
+    "throttle"     "0.1"
+    "heartbeat"    "10.0"
+    "data"
+    {
+        "provider"                  "1"
+        "tournamentdraft"           "1"
+        "map"                       "1"
+        "map_round_wins"            "1"
+        "round"                     "1"
+        "player_id"                 "1"
+        "player_state"              "1"
+        "player_weapons"            "1"
+        "player_match_stats"        "1"
+        "player_position"           "1"
+        "phase_countdowns"          "1"
+        "allplayers_id"             "1"
+        "allplayers_state"          "1"
+        "allplayers_match_stats"    "1"
+        "allplayers_weapons"        "1"
+        "allplayers_position"       "1"
+        "allgrenades"               "1"
+        "bomb"                      "1"
+    }
+}
+```
 
 3. Create handlers and subscribe for events your application will be using. (A full list of exposed Game Events can be found in the [Implemented Game Events](#implemented-game-events) section.)
 If your application just needs `GameState` information, this is done by subscribing to `NewGameState` event and creating a handler for it:
@@ -352,6 +357,6 @@ In the event that the game state is missing information, a default value will be
 | `string` | `String.Empty` |
 | `enum`   | `Undefined`    |
 
-### Weapon names
+## Weapon names
 
 A full list of weapon names can be found [here](https://counterstrike.fandom.com/wiki/Developer_console#Available_entities).
