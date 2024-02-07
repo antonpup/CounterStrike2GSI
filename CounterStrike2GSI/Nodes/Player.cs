@@ -47,6 +47,11 @@ namespace CounterStrike2GSI.Nodes
         public readonly string Name;
 
         /// <summary>
+        /// The player's XP Overload level.
+        /// </summary>
+        public readonly int XPOverloadLevel;
+
+        /// <summary>
         /// The player's clan.
         /// </summary>
         public readonly string Clan;
@@ -109,6 +114,7 @@ namespace CounterStrike2GSI.Nodes
 
             Clan = GetString("clan");
             Name = GetString("name");
+            XPOverloadLevel = GetInt("xpoverload");
             ObserverSlot = GetInt("observer_slot");
             Team = GetEnum<PlayerTeam>("team");
             Activity = GetEnum<PlayerActivity>("activity");
