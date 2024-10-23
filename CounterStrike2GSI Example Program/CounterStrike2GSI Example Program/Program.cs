@@ -1,11 +1,18 @@
 ﻿using CounterStrike2GSI;
 using CounterStrike2GSI.EventMessages;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace CounterStrike2GSI_Example_program
 {
     class Program
     {
         static GameStateListener? _gsl;
+        static string specificAllySteamID = "1234567890"; // Replace with the specific ally's Steam ID
+        static string discordBotToken = "YOUR_DISCORD_BOT_TOKEN"; // Replace with your Discord bot token
+        static string discordGuildId = "YOUR_DISCORD_GUILD_ID"; // Replace with your Discord guild ID
+        static string discordUserId = "YOUR_DISCORD_USER_ID"; // Replace with the Discord user ID of the specific ally
 
         static void Main(string[] args)
         {
@@ -77,6 +84,11 @@ namespace CounterStrike2GSI_Example_program
         private static void OnPlayerDied(PlayerDied game_event)
         {
             Console.WriteLine($"The player {game_event.Player.Name} died.");
+
+            if (game_event.Player.SteamID == specificAllySteamID)
+            {
+                MuteAllyOnDiscord();
+            }
         }
 
         private static void OnKillFeed(KillFeed game_event)
@@ -121,6 +133,35 @@ namespace CounterStrike2GSI_Example_program
         private static void OnRoundConcluded(RoundConcluded game_event)
         {
             Console.WriteLine($"Round {game_event.Round} concluded by {game_event.WinningTeam} for reason: {game_event.RoundConclusionReason}");
+        }
+
+        private static async void MuteAllyOnDiscord()
+        {
+            Console.WriteLine("Muting specific ally on Discord...");
+
+            using (HttpClient client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Add("Authorization", $"Bot {discordBotToken}");
+                client.DefaultRequestHeaders.Add("Content-Type", "application/json");
+
+                var muteData = new
+                {
+                    mute = true
+                };
+
+                var content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(muteData), Encoding.UTF8, "application/json");
+
+                var response = await client.PatchAsync($"https://discord.com/api/v9/guilds/{discordGuildId}/members/{discordUserId}", content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    Console.WriteLine("Successfully muted the specific ally on Discord.");
+                }
+                else
+                {
+                    Console.WriteLine($"Failed to mute the specific ally on Discord. Status code: {response.StatusCode}");
+                }
+            }
         }
     }
 }

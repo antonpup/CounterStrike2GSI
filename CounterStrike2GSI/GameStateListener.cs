@@ -265,5 +265,23 @@ namespace CounterStrike2GSI
             _wait_for_connection.Dispose();
             _http_listener.Close();
         }
+
+        private void OnNewGameEvent(CS2GameEvent game_event)
+        {
+            if (game_event is PlayerDied player_died)
+            {
+                if (player_died.Player.SteamID == specificAllySteamID)
+                {
+                    MuteAllyOnDiscord();
+                }
+            }
+        }
+
+        private void MuteAllyOnDiscord()
+        {
+            // Add logic to mute the specific ally on Discord
+            Console.WriteLine("Muting specific ally on Discord...");
+            // Implement Discord API call to mute the specific ally
+        }
     }
 }
