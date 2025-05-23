@@ -27,12 +27,18 @@ namespace CounterStrike2GSI.Nodes
         /// </summary>
         public readonly string SteamID;
 
+        /// <summary>
+        ///  Timestamp of the GameState data.
+        /// </summary>
+        public readonly long Timestamp;
+
         internal Provider(JObject parsed_data = null) : base(parsed_data)
         {
             Name = GetString("name");
             AppID = GetInt("appid");
             Version = GetInt("version");
             SteamID = GetString("steamid");
+            Timestamp = GetLong("timestamp");
         }
 
         /// <inheritdoc/>
@@ -43,6 +49,7 @@ namespace CounterStrike2GSI.Nodes
                 $"AppID: {AppID}, " +
                 $"Version: {Version}, " +
                 $"SteamID: {SteamID}" +
+                $"Timestamp: {Timestamp}" +
                 $"]";
         }
 
@@ -69,6 +76,7 @@ namespace CounterStrike2GSI.Nodes
             hashCode = hashCode * -845579214 + AppID.GetHashCode();
             hashCode = hashCode * -845579214 + Version.GetHashCode();
             hashCode = hashCode * -845579214 + SteamID.GetHashCode();
+            hashCode = hashCode * -845579214 + Timestamp.GetHashCode();
             return hashCode;
         }
     }
