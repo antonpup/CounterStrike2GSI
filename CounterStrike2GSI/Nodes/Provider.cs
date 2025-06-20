@@ -38,7 +38,7 @@ namespace CounterStrike2GSI.Nodes
             AppID = GetInt("appid");
             Version = GetInt("version");
             SteamID = GetString("steamid");
-            Timestamp = GetLong("timestamp");
+            Timestamp = GetInt("timestamp");
         }
 
         /// <inheritdoc/>
