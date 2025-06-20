@@ -30,7 +30,7 @@ namespace CounterStrike2GSI.Nodes
         /// <summary>
         ///  Timestamp of the GameState data.
         /// </summary>
-        public readonly long Timestamp;
+        public readonly int Timestamp;
 
         internal Provider(JObject parsed_data = null) : base(parsed_data)
         {
