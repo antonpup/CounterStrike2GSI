@@ -44,7 +44,7 @@ namespace CounterStrike2GSI.Nodes
             Flag = GetString("flag");
             ConsecutiveRoundLosses = GetInt("consecutive_round_losses");
             RemainingTimeouts = GetInt("timeouts_remaining");
-            MatchesWonThisSeries = GetInt("timeouts_remaining");
+            MatchesWonThisSeries = GetInt("matches_won_this_series");
         }
 
         public override string ToString()
