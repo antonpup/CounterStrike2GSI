@@ -28,7 +28,7 @@ namespace CounterStrike2GSI.Nodes
         public readonly string SteamID;
 
         /// <summary>
-        ///  Timestamp of the GameState data.
+        /// Timestamp of the GameState data.
         /// </summary>
         public readonly int Timestamp;
 
@@ -65,7 +65,8 @@ namespace CounterStrike2GSI.Nodes
                 Name.Equals(other.Name) &&
                 AppID == other.AppID &&
                 Version == other.Version &&
-                SteamID.Equals(other.SteamID);
+                SteamID.Equals(other.SteamID) &&
+                Timestamp == other.Timestamp;
         }
 
         /// <inheritdoc/>
