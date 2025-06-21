@@ -114,6 +114,7 @@ namespace CounterStrike2GSI
             AllPlayers = new AllPlayers(GetJObject("allplayers"));
             AllGrenades = new AllGrenades(GetJObject("grenades"));
             Bomb = new Bomb(GetJObject("bomb"));
+            TournamentDraft = new TournamentDraft(GetJObject("tournamentdraft"));
         }
     }
 }
