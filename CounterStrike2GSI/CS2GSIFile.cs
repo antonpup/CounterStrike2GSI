@@ -43,6 +43,10 @@ namespace CounterStrike2GSI
                     string gsifile = gsifolder + @$"gamestate_integration_{name}.cfg";
 
                     ACF provider_configuration = new ACF();
+
+                    // Providers and the version this integration would like to use.
+                    // As of 6/23/2025 all providers only offer version 1.
+
                     provider_configuration.Items["provider"] = "1";
                     provider_configuration.Items["tournamentdraft"] = "1";
                     provider_configuration.Items["map"] = "1";
@@ -64,11 +68,19 @@ namespace CounterStrike2GSI
 
                     ACF gsi_configuration = new ACF();
                     gsi_configuration.Items["uri"] = uri;
-                    gsi_configuration.Items["timeout"] = "5.0";
-                    gsi_configuration.Items["buffer"] = "0.1";
-                    gsi_configuration.Items["throttle"] = "0.1";
-                    gsi_configuration.Items["heartbeat"] = "10.0";
+                    gsi_configuration.Items["timeout"] = "5.0"; // Default is 60.0, Min value 1.1
+                    gsi_configuration.Items["buffer"] = "0.1";  // Default is 0.1, Min value 0.0
+                    gsi_configuration.Items["throttle"] = "0.1"; // Default is 1.0, Min value 0.0
+                    gsi_configuration.Items["heartbeat"] = "10.0"; // Default is 60.0, Min value 0.0
+
+                    // Precision value adjustment for time and vector values.
+
+                    gsi_configuration.Items["output/precision_time"] = "1";  // Default is 1
+                    gsi_configuration.Items["output/precision_position"] = "2"; // Default is 2
+                    gsi_configuration.Items["output/precision_vector"] = "2";  // Default is 2
+
                     gsi_configuration.Children["data"] = provider_configuration;
+
 
                     ACF gsi = new ACF();
                     gsi.Children[$"{name} Integration Configuration"] = gsi_configuration;
