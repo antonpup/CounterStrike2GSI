@@ -8,8 +8,16 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
+    <DefineConstants>WINDOWS</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(OS)' != 'Windows_NT'">
+    <DefineConstants>MACOS</DefineConstants>
+  </PropertyGroup>
+
   <ItemGroup>
-    <ProjectReference Include="..\..\build\CounterStrike2GSI\CounterStrike2GSI.csproj" />
+    <ProjectReference Include="..\..\build\CounterStrike2GSI\CounterStrike2GSI.csproj" Condition="'$(OS)' == 'Windows_NT'" />
+    <ProjectReference Include="../../CounterStrike2GSI/CounterStrike2GSI.csproj" Condition="'$(OS)' != 'Windows_NT'" />
   </ItemGroup>
 
 </Project>

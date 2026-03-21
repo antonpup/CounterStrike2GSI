@@ -26,11 +26,32 @@ You can read about Game State Integration for Counter-Strike: Global Offensive [
 Install from [nuget](https://www.nuget.org/packages/CounterStrike2GSI).
 
 ## Building Counter-Strike 2 GSI
-
+### On Windows
 1. Make sure you have Visual Studio installed with `.NET desktop development` workload and `.Net 8.0 Runtime` individual component.
 2. Make sure you have CMake 3.26 or later installed from [https://cmake.org/](https://cmake.org/).
 3. In the repository root directory run: `cmake -B build/ .` to generate the project solution file.
 4. Open the project solution located in `build/CounterStrike2GSI.sln`.
+### On MACOS
+1. Install the .NET SDK. If it is not installed, download and install it from [https://dotnet.microsoft.com/download].
+2. In the repository root directory run: 
+```
+# Navigate to the CounterStrike2GSI directory
+cd CounterStrike2GSI
+
+# Build the main project
+dotnet build
+
+# Below is optional
+# Navigate to the Example Program directory
+cd "CounterStrike2GSI Example Program"
+
+# Build the macOS-specific solution file
+dotnet build "CounterStrike2GSI Example Program_macos.sln"
+
+# Run the example program
+cd "CounterStrike2GSI Example Program"
+dotnet run
+```
 
 ## How to use
 

@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="CS2EventsInterface.cs" />
+    <Compile Include="CS2GSIFile.cs" />
+    <Compile Include="EventDispatcher.cs" />
+    <Compile Include="EventHandler.cs" />
+    <Compile Include="EventsInterface.cs" />
+    <Compile Include="GameState.cs" />
+    <Compile Include="GameStateHandler.cs" />
+    <Compile Include="GameStateListener.cs" />
+    <Compile Include="EventMessages/*.cs" />
+    <Compile Include="Nodes/**/*.cs" />
+    <Compile Include="StateHandlers/*.cs" />
+    <Compile Include="Utils/*.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+  </ItemGroup>
+
+</Project>
