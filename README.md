@@ -6,6 +6,8 @@ Counter-Strike 2 GSI (Game State Integration)
 [![GitHub Release](https://img.shields.io/github/v/release/antonpup/CounterStrike2GSI)](https://github.com/antonpup/CounterStrike2GSI/releases/latest)
 [![NuGet Version](https://img.shields.io/nuget/v/CounterStrike2GSI)](https://www.nuget.org/packages/CounterStrike2GSI)
 [![NuGet Downloads](https://img.shields.io/nuget/dt/CounterStrike2GSI?label=nuget%20downloads)](https://www.nuget.org/packages/CounterStrike2GSI)
+[中文说明文档](./CounterStrike2GSI_XML_中文说明.md)
+[Callback_use_guide](./CounterStrike2GSI_Callback_Guide_EN.md)
 
 A C# library to interface with the Game State Integration found in Counter-Strike 2.
 
