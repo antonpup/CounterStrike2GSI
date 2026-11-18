@@ -13,6 +13,13 @@ namespace CounterStrike2GSI.Nodes
         public readonly int Health;
 
         /// <summary>
+        /// The predicted player health if the planted C4 were to detonate now,
+        /// based on the player's current distance from the bomb.
+        /// Equals -1 when the game does not provide this value.
+        /// </summary>
+        public readonly int HealthC4Preview;
+
+        /// <summary>
         /// The player armor amount.
         /// </summary>
         public readonly int Armor;
@@ -70,6 +77,7 @@ namespace CounterStrike2GSI.Nodes
         internal PlayerState(JObject parsed_data = null) : base(parsed_data)
         {
             Health = GetInt("health");
+            HealthC4Preview = GetInt("health_c4_preview");
             Armor = GetInt("armor");
             HasHelmet = GetBool("helmet");
             HasDefuseKit = GetBool("defusekit");
@@ -88,6 +96,7 @@ namespace CounterStrike2GSI.Nodes
         {
             return $"[" +
                 $"Health: {Health}, " +
+                $"HealthC4Preview: {HealthC4Preview}, " +
                 $"Armor: {Armor}, " +
                 $"HasHelmet: {HasHelmet}, " +
                 $"HasDefuseKit: {HasDefuseKit}, " +
@@ -112,6 +121,7 @@ namespace CounterStrike2GSI.Nodes
 
             return obj is PlayerState other &&
                 Health.Equals(other.Health) &&
+                HealthC4Preview.Equals(other.HealthC4Preview) &&
                 Armor.Equals(other.Armor) &&
                 HasHelmet.Equals(other.HasHelmet) &&
                 HasDefuseKit.Equals(other.HasDefuseKit) &&
@@ -130,6 +140,7 @@ namespace CounterStrike2GSI.Nodes
         {
             int hashCode = 871364069;
             hashCode = hashCode * -398756301 + Health.GetHashCode();
+            hashCode = hashCode * -398756301 + HealthC4Preview.GetHashCode();
             hashCode = hashCode * -398756301 + Armor.GetHashCode();
             hashCode = hashCode * -398756301 + HasHelmet.GetHashCode();
             hashCode = hashCode * -398756301 + HasDefuseKit.GetHashCode();

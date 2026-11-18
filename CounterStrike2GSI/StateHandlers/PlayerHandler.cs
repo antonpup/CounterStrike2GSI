@@ -165,6 +165,11 @@ namespace CounterStrike2GSI
                 }
             }
 
+            if (!evt.New.HealthC4Preview.Equals(evt.Previous.HealthC4Preview))
+            {
+                dispatcher.Broadcast(new PlayerHealthC4PreviewChanged(evt.New.HealthC4Preview, evt.Previous.HealthC4Preview, evt.Player));
+            }
+
             if (!evt.New.Armor.Equals(evt.Previous.Armor))
             {
                 dispatcher.Broadcast(new PlayerArmorChanged(evt.New.Armor, evt.Previous.Armor, evt.Player));
