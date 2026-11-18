@@ -221,6 +221,7 @@ if (!gsl.Start())
 * `PlayerActivityChanged`
 * `PlayerStateChanged`
 * `PlayerHealthChanged`
+* `PlayerHealthC4PreviewChanged`
 * `PlayerDied`
 * `PlayerRespawned`
 * `PlayerTookDamage`
@@ -297,6 +298,7 @@ GameState
 |   +-- Activity
 |   +-- State
 |   |   +-- Health
+|   |   +-- HealthC4Preview
 |   |   +-- Armor
 |   |   +-- HasHelmet
 |   |   +-- FlashAmount

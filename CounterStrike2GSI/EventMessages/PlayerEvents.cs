@@ -89,6 +89,16 @@ namespace CounterStrike2GSI.EventMessages
     }
 
     /// <summary>
+    /// Event for specific player's predicted health after C4 detonation update.
+    /// </summary>
+    public class PlayerHealthC4PreviewChanged : PlayerUpdateEvent<int>
+    {
+        public PlayerHealthC4PreviewChanged(int new_value, int previous_value, Player player) : base(new_value, previous_value, player)
+        {
+        }
+    }
+
+    /// <summary>
     /// Event for specific player's armor update.
     /// </summary>
     public class PlayerArmorChanged : PlayerUpdateEvent<int>
