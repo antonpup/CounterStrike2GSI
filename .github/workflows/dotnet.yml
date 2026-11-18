@@ -23,10 +23,10 @@ jobs:
           core.setOutput('build_number', "${{ github.run_id }}".substr(-4, 4));
   build:
     needs: [variables]
-    runs-on: windows-latest
+    runs-on: windows-2022
     env:
-      solution_path: build\CounterStrike2GSI.sln
-      build_path: build\binaries\Release\
+      solution_path: ./build/CounterStrike2GSI.sln
+      build_path: ./build/binaries/Release/
     steps:
     - uses: actions/checkout@v4
     - name: Setup .NET
@@ -34,7 +34,7 @@ jobs:
       with:
         dotnet-version: 8.0.x
     - name: Generate project
-      run: cmake -B build/ -A x64 -D BUILD_NUMBER=${{ needs.variables.outputs.build_number }} .
+      run: cmake -B build/ -A x64 -D BUILD_NUMBER=${{ needs.variables.outputs.build_number }} -G "Visual Studio 17 2022" .
     - name: Restore dependencies
       run: dotnet restore $env:solution_path
     - name: Build
