@@ -40,14 +40,29 @@ namespace CounterStrike2GSI.Nodes
         Scrimcomp5v5,
 
         /// <summary>
+        /// Rush game mode.
+        /// </summary>
+        Rush,
+
+        /// <summary>
+        /// Retakes game mode.
+        /// </summary>
+        Retakes,
+
+        /// <summary>
         /// Casual game mode.
         /// </summary>
         Casual,
 
         /// <summary>
-        /// Mission game mode.
+        /// Cooperative Mission game mode.
         /// </summary>
         Cooperative,
+
+        /// <summary>
+        /// Cooperative Mission game mode.
+        /// </summary>
+        Coopmission,
 
         /// <summary>
         /// Training game mode.
@@ -57,7 +72,22 @@ namespace CounterStrike2GSI.Nodes
         /// <summary>
         /// Deathmatch game mode.
         /// </summary>
-        Deathmatch
+        Deathmatch,
+
+        /// <summary>
+        /// Arms Race game mode.
+        /// </summary>
+        Gungameprogressive,
+
+        /// <summary>
+        /// Arms Race game mode.
+        /// </summary>
+        Gungametrbomb,
+
+        /// <summary>
+        /// Survival game mode.
+        /// </summary>
+        Survival
     }
 
     /// <summary>
