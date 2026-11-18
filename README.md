@@ -27,9 +27,9 @@ Install from [nuget](https://www.nuget.org/packages/CounterStrike2GSI).
 
 ## Building Counter-Strike 2 GSI
 
-1. Make sure you have Visual Studio installed with `.NET desktop development` workload and `.Net 8.0 Runtime` individual component.
+1. Make sure you have Visual Studio 2022 installed with `.NET desktop development` workload and `.Net 8.0 Runtime` individual component.
 2. Make sure you have CMake 3.26 or later installed from [https://cmake.org/](https://cmake.org/).
-3. In the repository root directory run: `cmake -B build/ .` to generate the project solution file.
+3. In the repository root directory run: `cmake -B build/ -G "Visual Studio 17 2022" .` to generate the project solution file.
 4. Open the project solution located in `build/CounterStrike2GSI.sln`.
 
 ## How to use
